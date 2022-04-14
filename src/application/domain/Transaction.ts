@@ -1,20 +1,28 @@
-import Account from "./Account"
+import crypto from "crypto";
 
 export type TransactionProps = {
 
-    originAccout: Account;
-    destinyAccount: Account;
+    originBankName: string,
+    originBankAgency: string,
+    originBankNumber: string,
+    destinyBankName: string,
+    destinyBankAgency: string,
+    destinyBankNumber: string,
     value: number;
     date: Date;
 }
 
 export class Transaction {
 
-    private constructor(private props: TransactionProps) {
+    public id: string;
+
+    private constructor(props: TransactionProps, id?: string) {
+        this.id = id || crypto.randomUUID();
+        Object.assign(this, props);
     };
 
-    static create(props: TransactionProps) {
-        return new Transaction(props);
+    static create(props: TransactionProps, id?: string) {
+        return new Transaction(props, id);
     }
 }
 
