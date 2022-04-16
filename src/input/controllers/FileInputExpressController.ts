@@ -1,4 +1,6 @@
+import fs from "fs";
 import { Request, Response } from "express";
+import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 
 export class FileInputExpressController {
 
@@ -7,8 +9,11 @@ export class FileInputExpressController {
         console.log(request.file);
 
         if (request.file) {
-            return response.json({ message: `one file uploaded, with name: ${request.file.originalname} and ${request.file.size} bits` });
+            const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
+            const adapter = new CSVToTransactionAdapter(fileSource);
+            adapter.execute();
         }
+
         return response.json({ message: "No file uploaded" })
     }
 }
