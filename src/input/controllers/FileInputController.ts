@@ -22,6 +22,8 @@ export class FileInputController {
                 const savedId = await new SaveTransactionUseCase(this.repository).execute(transaction);
                 savedIds.push(savedId);
             }
+
+            fs.rm(request.file.path, (err) => console.error("error deleting upload: " + err));
             return response.redirect("/");
             // return response.json(`Saved transaction ids: \n ${savedIds}`).status(201);
         }
