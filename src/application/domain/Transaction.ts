@@ -10,7 +10,7 @@ export type TransactionProps = {
     destinyBankNumber: string,
     value: string;
     date: Date;
-    hasNullFields: boolean
+    allFieldsFull: boolean
 }
 
 export class Transaction {
@@ -36,16 +36,16 @@ export class Transaction {
             destinyBankNumber: source[5],
             value: source[6],
             date: new Date(source[7]),
-            hasNullFields: false
+            allFieldsFull: true
         };
 
         const entries = Object.entries(props);
-        const nullEntry = entries.filter(el => !el[1]);
-        if (nullEntry.length) props.hasNullFields = true;
+        const hasNullField = entries.some(el => {
+            const [_, value] = el;
+            return (value == null || value == undefined || value == "")
+        })
+        props.allFieldsFull = !hasNullField;
 
         return new Transaction(props);
     }
 }
-
-// Valor da transação
-// Data e hora da transação

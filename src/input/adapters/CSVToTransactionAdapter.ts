@@ -14,7 +14,9 @@ export class CSVToTransactionAdapter {
         // Filtrando apenas transações da mesma data
         // E transações sem campos nulos
         const transactions = data.map(Transaction.createFromStringArray)
-            .filter(el => el.props.date.getDate() == firstEl.props.date.getDate());
+            .filter(el => el.props.date.getDate() == firstEl.props.date.getDate()
+                && el.props.allFieldsFull
+            );
         console.log(transactions);
         return transactions;
     }
