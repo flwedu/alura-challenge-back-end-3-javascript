@@ -2,7 +2,6 @@ const table__div = document.getElementById("table__div");
 const table = document.getElementById("table");
 
 fetch("/transactions").then(appendToTable);
-console.log("Fetching");
 
 /**
  * This functions receives a list and append each element to the table element
@@ -11,6 +10,10 @@ console.log("Fetching");
 function appendToTable(response) {
   response.json().then((responseList) => {
     const tbody = table.querySelector("tbody");
+
+    //Showing the table if only has data to show
+    if (responseList.length) table__div.hidden = false;
+
     responseList.forEach((el) => {
       const tr = convertToTrElement(el);
       tbody.appendChild(tr);
