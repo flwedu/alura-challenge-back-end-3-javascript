@@ -2,6 +2,7 @@ import fs from "fs";
 import { Request, Response } from "express";
 import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 import IRepository from "../../output/repositories/IRepository";
+import { SaveTransactionUseCase } from "../../application/useCases/SaveTransactionUseCase";
 
 export class FileInputController {
 
@@ -13,11 +14,18 @@ export class FileInputController {
 
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
-            const adapter = new CSVToTransactionAdapter(fileSource, this.repository);
-            adapter.execute();
-            return response.json({ message: "New Transactions saved" });
+            const adapter = new CSVToTransactionAdapter(fileSource);
+            const transactionsList = await adapter.execute();
+            const savedIds = [];
+
+            for (let transaction of transactionsList) {
+                const savedId = await new SaveTransactionUseCase(this.repository).execute(transaction);
+                savedIds.push(savedId);
+            }
+            return response.redirect("/");
+            // return response.json(`Saved transaction ids: \n ${savedIds}`).status(201);
         }
 
-        return response.json({ message: "No file uploaded" })
+        return response.json({ message: "No file uploaded" }).status(400)
     }
 }
