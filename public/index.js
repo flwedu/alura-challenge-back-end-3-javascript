@@ -10,9 +10,10 @@ console.log("Fetching");
  */
 function appendToTable(response) {
   response.json().then((responseList) => {
+    const tbody = table.querySelector("tbody");
     responseList.forEach((el) => {
       const tr = convertToTrElement(el);
-      table.appendChild(tr);
+      tbody.appendChild(tr);
     });
   });
 }
