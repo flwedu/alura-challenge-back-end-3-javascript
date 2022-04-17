@@ -2,13 +2,18 @@ import IRepository from "../IRepository";
 
 export class InMemoryRepository<T> implements IRepository<T>{
 
-    public list: any[] = [];
+    public list: any[];
 
-    constructor() { };
+    constructor() {
+        this.list = [];
+    };
 
     save(entity: any) {
+        const oldLength = this.list.length;
         this.list.push(entity);
-        return Promise.resolve(entity.id);
+        const newLength = this.list.length;
+        if (newLength > oldLength) return Promise.resolve(entity.id);
+        return Promise.reject("Error saving")
     };
     findById(id: string) {
         const result = this.list.find(el => el.id == id);
