@@ -17,7 +17,6 @@ export class CSVToTransactionAdapter {
             .filter(el => el.props.date.getDate() == firstEl.props.date.getDate()
                 && el.props.allFieldsFull
             );
-        console.log(transactions);
         return transactions;
     }
 }
