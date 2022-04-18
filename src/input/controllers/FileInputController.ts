@@ -15,12 +15,10 @@ export class FileInputController {
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
             const adapter = new CSVToTransactionAdapter(fileSource);
-            const transactionsList = await adapter.execute();
-            const savedIds = [];
+            const transactionsList = adapter.execute();
 
             for (let transaction of transactionsList) {
-                const savedId = await new SaveTransactionUseCase(this.repository).execute(transaction);
-                savedIds.push(savedId);
+                await new SaveTransactionUseCase(this.repository).execute(transaction);
             }
 
             fs.rm(request.file.path, (err) => console.error("error deleting upload: " + err));
