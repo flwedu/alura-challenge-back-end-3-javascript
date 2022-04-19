@@ -10,7 +10,6 @@ export type UserProps = {
 
     name: string,
     email: string,
-    password: string
 }
 
 export class User {
@@ -20,17 +19,18 @@ export class User {
     public email: string;
     public password: string;
 
-    private constructor(props: UserProps, id?: string) {
+    private constructor(props: UserProps, password: string, id?: string) {
         this.id = id || crypto.randomUUID();
         this.name = props.name;
         this.email = props.name;
-        this.password = props.password;
+        this.password = password;
 
     };
 
     static async create(props: UserProps, id?: string) {
-        props.password = await hashPassword(props.password);
-        return new User(props, id);
+        const password = Math.floor(100000 + Math.random() * 900000).toString().padStart(6);
+        const hashed = await hashPassword(password);
+        return new User(props, hashed, id);
     }
 
     async checkPassword(password: string) {
