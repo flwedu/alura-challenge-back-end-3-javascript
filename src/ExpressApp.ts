@@ -8,7 +8,11 @@ import { InMemoryRepository } from "./output/repositories/test/InMemoryRepositor
 const app = Express();
 const repository = new InMemoryRepository<Transaction>();
 
-app.use("/", Express.static("public"));
+// Set view engine to ejs
+app.set("view engine", "ejs");
+
+// Middlewares
+app.use(Express.static("public"));
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 
