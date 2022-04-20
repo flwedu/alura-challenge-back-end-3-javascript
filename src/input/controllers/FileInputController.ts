@@ -10,8 +10,6 @@ export class FileInputController {
 
     async handle(request: Request, response: Response) {
 
-        console.log(request.file);
-
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
             const adapter = new CSVToTransactionAdapter(fileSource);
@@ -21,11 +19,13 @@ export class FileInputController {
                 await new SaveTransactionUseCase(this.repository).execute(transaction);
             }
 
-            fs.rm(request.file.path, (err) => console.error("error deleting upload: " + err));
-            return response.redirect("/");
-            // return response.json(`Saved transaction ids: \n ${savedIds}`).status(201);
+            fs.rm(request.file.path, (err) => {
+                if (err) {
+                    console.error("error deleting upload: " + err);
+                }
+                return console.log("Deleted files");
+            });
         }
-
-        return response.json({ message: "No file uploaded" }).status(400)
+        return response.redirect("/");
     }
 }
