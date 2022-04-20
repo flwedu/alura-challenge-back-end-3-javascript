@@ -28,7 +28,8 @@
         <input class="btn btn-primary" type="submit" value="Importar" />
       </div>
     </form>
-    <div id="table__div" hidden="true">
+    <% if (transactions.length) {%> 
+    <div id="table__div">
       <h1>Lista de transações importadas por <%= user %></h1>
       <table id="table" class="table">
         <thead class="thead-light">
@@ -41,9 +42,22 @@
           <th>Valor</th>
           <th>Data</th>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <% transactions.forEach(function (transaction) { %>
+            <tr>
+              <td><%= transaction.originBankName %></td>
+              <td><%= transaction.originBankAgency %></td>
+              <td><%= transaction.originBankNumber %></td>
+              <td><%= transaction.destinyBankName %></td>
+              <td><%= transaction.destinyBankAgency %></td>
+              <td><%= transaction.destinyBankNumber %></td>
+              <td><%= transaction.value %></td>
+              <td><%= transaction.date %></td>
+            </tr>
+            <% }); %>
+        </tbody>
       </table>
     </div>
-    <script src="./public/index.js"></script>
+    <% } %> 
   </body>
 </html>
