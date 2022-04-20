@@ -3,6 +3,7 @@ import multer from "multer";
 import { Transaction } from "./application/domain/Transaction";
 import { FileInputController } from "./input/controllers/FileInputController";
 import { FindAllController } from "./input/controllers/FindAllController";
+import { IndexViewController } from "./input/view-controllers/IndexViewController";
 import { InMemoryRepository } from "./output/repositories/test/InMemoryRepository";
 
 const app = Express();
@@ -19,9 +20,7 @@ app.use(Express.urlencoded({ extended: true }));
 const upload = multer({ dest: "uploads/" });
 
 // Static routes
-app.get("/", (req, res) => {
-    res.render("index", { user: "No User" })
-})
+app.get("/", async (req, res) => await new IndexViewController(transactionRepository).handle(req, res))
 app.get("/login", (req, res) => {
     res.render("login")
 })
