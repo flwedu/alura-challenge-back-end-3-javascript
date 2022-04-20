@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { FindAllFromUserUseCase } from "../../application/useCases/FindAllFromUserUseCase";
 import IRepository from "../../output/repositories/IRepository";
 
 export class FindAllController {
@@ -7,7 +8,7 @@ export class FindAllController {
 
     async handle(request: Request, response: Response) {
 
-        const results = await this.repository.find();
+        const results = await new FindAllFromUserUseCase(this.repository).execute(request.params.id);
         return response.json(results);
     }
 }
