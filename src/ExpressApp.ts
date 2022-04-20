@@ -32,7 +32,6 @@ app.get("/users", (req, res) => {
 })
 
 // API Routes
-app.get("/transactions", async (req, res) => new FindAllController(transactionRepository).handle(req, res));
-app.post("/submit", upload.single("files"), async (req, res) => await new FileInputController(transactionRepository).handle(req, res));
+app.post("/", upload.single("files"), async (req, res) => await new FileInputController(transactionRepository).handle(req, res));
 
 export { app };
