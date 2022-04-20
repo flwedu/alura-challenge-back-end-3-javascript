@@ -1,5 +1,6 @@
 export default interface IRepository<T> {
 
+    findOne: (query: any) => Promise<T>;
     save: (entity: T) => Promise<string>;
     findById: (id: string) => Promise<T>;
     find: (query?: any) => Promise<T[]>;

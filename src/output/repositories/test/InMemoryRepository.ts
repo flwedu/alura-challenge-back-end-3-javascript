@@ -8,6 +8,20 @@ export class InMemoryRepository<T> implements IRepository<T>{
         this.list = [];
     };
 
+    findOne(query: any) {
+
+        const entries = Object.entries(query);
+        const finded = this.list.find(el => {
+            return entries.some(entry => {
+                const [key, value] = entry;
+                if (el[key] == value) return true;
+                return false;
+            })
+        })
+        if (finded) return Promise.resolve(finded);
+        return Promise.reject("No element found");
+    };
+
     save(entity: any) {
         const oldLength = this.list.length;
         this.list.push(entity);
