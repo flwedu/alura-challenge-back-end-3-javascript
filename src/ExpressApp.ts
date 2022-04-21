@@ -30,17 +30,14 @@ app.use(Express.urlencoded({ extended: true }));
 const upload = multer({ dest: "uploads/" });
 
 // Static routes
-app.get("/", (req, res) => new IndexViewController(transactionRepository).handle(req, res))
-app.get("/login", (req, res) => {
-    res.render("login")
-})
-app.get("/register", (req, res) => {
-    res.render("register")
-})
-app.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res))
+app.get("/", (req, res) => new IndexViewController(transactionRepository).handle(req, res));
+app.get("/login", (req, res) => new LoginUserViewController(userRepository).handle(req, res));
+app.get("/register", (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
+app.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res));
 
 // POST Routes
 app.post("/", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
-app.post("/register", (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res))
+app.post("/register", (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res));
+app.post("/login", (req, res) => new LoginUserController(userRepository, encryptor).handle(req, res));
 
 export { app };
