@@ -1,10 +1,8 @@
 import "dotenv/config";
 import Express from "express";
 import multer from "multer";
-import { FileInputController } from "./input/controllers/FileInputController";
-import { RegisterUserController } from "./input/controllers/RegisterUserController";
-import { IndexViewController } from "./input/view-controllers/IndexViewController";
-import { UsersViewController } from "./input/view-controllers/UsersViewController";
+import { FileInputController, RegisterUserController, LoginUserController } from "./input/controllers";
+import { IndexViewController, LoginUserViewController, RegisterUserViewController, UsersViewController } from "./input/view-controllers";
 import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
 import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
 import Encryptor from "./security/Encryptor";
