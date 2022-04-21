@@ -1,6 +1,7 @@
 import Express from "express";
 import multer from "multer";
 import { FileInputController } from "./input/controllers/FileInputController";
+import { RegisterUserController } from "./input/controllers/RegisterUserController";
 import { IndexViewController } from "./input/view-controllers/IndexViewController";
 import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
 
@@ -29,7 +30,8 @@ app.get("/users", (req, res) => {
     res.render("users")
 })
 
-// API Routes
+// POST Routes
 app.post("/", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
+app.post("/register", (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res))
 
 export { app };
