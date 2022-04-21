@@ -2,7 +2,7 @@ import fs from "fs";
 import { Request, Response } from "express";
 import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 import IRepository from "../../output/repositories/IRepository";
-import { SaveTransactionUseCase } from "../../application/useCases/SaveTransactionUseCase";
+import { SaveTransactionUseCase } from "../../application/useCases/transactions/SaveTransactionUseCase";
 
 export class FileInputController {
 
