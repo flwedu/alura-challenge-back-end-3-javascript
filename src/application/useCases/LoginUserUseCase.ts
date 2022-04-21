@@ -17,7 +17,6 @@ export class LoginUserUseCase {
             const user = await this.repository.findOne({ email: props.email });
             const correctPassword = await checkPassword(props.password, user.password);
 
-            if (!user) throw new Error("User not found")
             if (!correctPassword) throw new Error("Invalid password");
             return Promise.resolve(true);
         }
