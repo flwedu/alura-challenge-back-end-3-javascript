@@ -1,12 +1,25 @@
+import "dotenv/config";
 import Express from "express";
 import multer from "multer";
 import { FileInputController } from "./input/controllers/FileInputController";
 import { RegisterUserController } from "./input/controllers/RegisterUserController";
 import { IndexViewController } from "./input/view-controllers/IndexViewController";
 import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
+import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
+import Encryptor from "./security/Encryptor";
+
+// App env
+const secret = process.env.secret;
 
 const app = Express();
+const encryptor = new Encryptor(secret);
 const transactionRepository = new InMemoryTransactionRepository();
+const userRepository = new InMemoryUserRepository();
+
+// Temp: Registering admin login throught IIFE
+(async () => {
+    await userRepository.save({ id: "1", email: "admin@email.com.br", name: "Admin", password: "123999" });
+})();
 
 // Set view engine to ejs
 app.set("view engine", "ejs");
