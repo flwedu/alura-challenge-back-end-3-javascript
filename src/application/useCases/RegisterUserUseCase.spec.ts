@@ -15,11 +15,11 @@ describe('RegisterUserUseCase tests', () => {
         const spy = jest.spyOn(repository, "save");
         const sut = new RegisterUserUseCase(repository);
 
-        const id = await sut.execute(input);
+        const savedUser = await sut.execute(input);
 
         expect.assertions(2);
         expect(spy).toBeCalledTimes(1);
-        expect(await repository.findById(id)).toEqual({ ...input, password: expect.any(String) });
+        expect(await repository.findById(savedUser.id)).toEqual({ ...input, password: expect.any(String) });
     })
 
     describe('Should throw an error: ', () => {
