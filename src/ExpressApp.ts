@@ -1,12 +1,11 @@
 import Express from "express";
 import multer from "multer";
-import { Transaction } from "./application/domain/Transaction";
 import { FileInputController } from "./input/controllers/FileInputController";
 import { IndexViewController } from "./input/view-controllers/IndexViewController";
-import { InMemoryRepository } from "./output/repositories/test/InMemoryRepository";
+import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
 
 const app = Express();
-const transactionRepository = new InMemoryRepository<Transaction>();
+const transactionRepository = new InMemoryTransactionRepository();
 
 // Set view engine to ejs
 app.set("view engine", "ejs");

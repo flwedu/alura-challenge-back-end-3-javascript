@@ -1,12 +1,11 @@
 import { Transaction } from "../../../application/domain/Transaction";
-import { IEncryptor } from "../../../security/IEncryptor";
 import IRepository from "../IRepository";
 
 export class InMemoryTransactionRepository implements IRepository<Transaction>{
 
     public list: Transaction[];
 
-    constructor(encryptor: IEncryptor) {
+    constructor() {
         this.list = [];
     };
 
