@@ -50,7 +50,7 @@ export class InMemoryTransactionRepository implements IRepository<Transaction>{
         const index = this.list.findIndex(el => el.id == id);
         if (index < 0) return Promise.reject("Id not found");
         this.list.splice(index, 1);
-        return Promise.resolve(id + " deleted");
+        return Promise.resolve(id);
     };
 
 }
