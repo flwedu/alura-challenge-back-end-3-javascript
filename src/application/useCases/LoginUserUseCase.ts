@@ -1,5 +1,5 @@
 import IRepository from "../../output/repositories/IRepository";
-import { checkPassword } from "../../util/password-encrypt";
+import { IEncryptor } from "../../security/IEncryptor";
 import { User } from "../domain/User";
 
 export type LoginUserProps = {
@@ -9,13 +9,13 @@ export type LoginUserProps = {
 
 export class LoginUserUseCase {
 
-    constructor(private readonly repository: IRepository<User>) { };
+    constructor(private readonly repository: IRepository<User>, private readonly encryptor: IEncryptor) { };
 
     async execute(props: LoginUserProps) {
 
         try {
             const user = await this.repository.findOne({ email: props.email });
-            const correctPassword = await checkPassword(props.password, user.password);
+            const correctPassword = await this.encryptor.checkPassword(props.password, user.password);
 
             if (!correctPassword) throw new Error("Invalid password");
             return Promise.resolve(true);

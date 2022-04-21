@@ -1,8 +1,10 @@
-import { InMemoryRepository } from "../../output/repositories/test/InMemoryRepository";
-import { User } from "../domain/User";
+import { InMemoryUserRepository } from "../../output/repositories/test/InMemoryUserRepository";
+import Encryptor from "../../security/Encryptor";
 import { RegisterUserUseCase } from "./RegisterUserUseCase";
 
 describe('RegisterUserUseCase tests', () => {
+
+    const encryptor = new Encryptor("123");
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -11,9 +13,9 @@ describe('RegisterUserUseCase tests', () => {
     test('should register a user', async () => {
 
         const input = { id: "1", name: "Test", email: "Test@email.com" };
-        const repository = new InMemoryRepository<User>();
+        const repository = new InMemoryUserRepository();
         const spy = jest.spyOn(repository, "save");
-        const sut = new RegisterUserUseCase(repository);
+        const sut = new RegisterUserUseCase(repository, encryptor);
 
         const savedUser = await sut.execute(input);
 
@@ -27,9 +29,9 @@ describe('RegisterUserUseCase tests', () => {
         test('when registering a user with email already registred in database', async () => {
 
             const input = { id: "1", name: "Test", email: "Test@email.com" };
-            const repository = new InMemoryRepository<User>();
+            const repository = new InMemoryUserRepository();
             const spy = jest.spyOn(repository, "save");
-            const sut = new RegisterUserUseCase(repository);
+            const sut = new RegisterUserUseCase(repository, encryptor);
 
             await sut.execute(input);
 

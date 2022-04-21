@@ -1,5 +1,5 @@
-import { InMemoryRepository } from "../../output/repositories/test/InMemoryRepository"
-import { User } from "../domain/User"
+import { InMemoryUserRepository } from "../../output/repositories/test/InMemoryUserRepository"
+import Encryptor from "../../security/Encryptor"
 import { LoginUserUseCase } from "./LoginUserUseCase"
 import { RegisterUserUseCase } from "./RegisterUserUseCase"
 
@@ -9,11 +9,12 @@ describe('LoginUserUseCase tests', () => {
         name: "Test",
         email: "test@email.com",
     }
-    const repository = new InMemoryRepository<User>();
-    const sut = new LoginUserUseCase(repository);
+    const encryptor = new Encryptor("123");
+    const repository = new InMemoryUserRepository();
+    const sut = new LoginUserUseCase(repository, encryptor);
     test('should return true', async () => {
 
-        const userInRepository = await new RegisterUserUseCase(repository).execute(user);
+        const userInRepository = await new RegisterUserUseCase(repository, encryptor).execute(user);
         const inputData = {
             email: "test@email.com",
             password: userInRepository.password
