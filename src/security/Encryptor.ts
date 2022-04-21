@@ -15,7 +15,7 @@ export default class Encryptor {
                 // Error creating hash
                 if (err) reject(err);
                 // Everything is allright
-                resolve(`${this.secret}:${derivedKey.toString("hex")}`);
+                resolve(derivedKey.toString("hex"));
             })
         })
     }
@@ -23,11 +23,10 @@ export default class Encryptor {
     async checkPassword(password: string, hashedPassword: string): Promise<boolean> {
 
         return new Promise((resolve, reject) => {
-            const [salt, key] = hashedPassword.split(":");
 
-            crypto.scrypt(password, salt, 64, (err, derivedKey) => {
+            crypto.scrypt(password, this.secret, 64, (err, derivedKey) => {
                 if (err) reject(err);
-                resolve(key == derivedKey.toString("hex"));
+                resolve(hashedPassword == derivedKey.toString("hex"));
             });
         })
     }
