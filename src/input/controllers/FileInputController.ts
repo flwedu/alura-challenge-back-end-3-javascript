@@ -3,10 +3,11 @@ import { Request, Response } from "express";
 import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 import IRepository from "../../output/repositories/IRepository";
 import { SaveTransactionUseCase } from "../../application/useCases/transactions/SaveTransactionUseCase";
+import { Transaction } from "../../application/domain/Transaction";
 
 export class FileInputController {
 
-    constructor(private repository: IRepository<any>) { }
+    constructor(private repository: IRepository<Transaction>) { }
 
     async handle(request: Request, response: Response) {
 
