@@ -4,6 +4,7 @@ import multer from "multer";
 import { FileInputController } from "./input/controllers/FileInputController";
 import { RegisterUserController } from "./input/controllers/RegisterUserController";
 import { IndexViewController } from "./input/view-controllers/IndexViewController";
+import { UsersViewController } from "./input/view-controllers/UsersViewController";
 import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
 import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
 import Encryptor from "./security/Encryptor";
@@ -39,9 +40,7 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
     res.render("register")
 })
-app.get("/users", (req, res) => {
-    res.render("users")
-})
+app.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res))
 
 // POST Routes
 app.post("/", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
