@@ -5,8 +5,9 @@ test('should return a array with one transaction', () => {
     const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00`
     const adapter = new CSVToTransactionAdapter(input);
 
-    const result = adapter.execute();
+    const result = adapter.execute("1");
 
+    expect.assertions(1);
     expect(result[0]).toMatchObject({
         "props": {
             originBankName: "BANCO DO BRASIL",
@@ -17,7 +18,8 @@ test('should return a array with one transaction', () => {
             destinyBankNumber: "00001-1",
             value: "8000",
             date: new Date("2022-01-01T07:30:00"),
-            allFieldsFull: true
+            allFieldsFull: true,
+            userId: "1"
         }
     })
 })
@@ -28,8 +30,9 @@ test('should return only 1 transaction when the second has a different date', ()
 BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-02T07:30:00`
     const adapter = new CSVToTransactionAdapter(input);
 
-    const result = adapter.execute();
+    const result = adapter.execute("1");
 
+    expect.assertions(1);
     expect(result.length).toEqual(1);
 })
 
@@ -39,7 +42,8 @@ test('should return only transactions without empty fields when the second has a
 BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,,2022-01-02T07:30:00`
     const adapter = new CSVToTransactionAdapter(input);
 
-    const result = adapter.execute();
+    const result = adapter.execute("1");
 
+    expect.assertions(1);
     expect(result.length).toEqual(0);
 })

@@ -10,7 +10,8 @@ export type TransactionProps = {
     destinyBankNumber: string,
     value: string;
     date: Date;
-    allFieldsFull: boolean
+    allFieldsFull: boolean;
+    userId: string
 }
 
 export class Transaction {

@@ -10,10 +10,12 @@ export class FileInputController {
 
     async handle(request: Request, response: Response) {
 
+        const userId = request.params.userId;
+
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
             const adapter = new CSVToTransactionAdapter(fileSource);
-            const transactionsList = adapter.execute();
+            const transactionsList = adapter.execute(userId);
 
             for (let transaction of transactionsList) {
                 await new SaveTransactionUseCase(this.repository).execute(transaction);

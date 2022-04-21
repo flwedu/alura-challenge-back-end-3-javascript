@@ -5,7 +5,7 @@ export class CSVToTransactionAdapter {
 
     constructor(private source: string) { };
 
-    execute() {
+    execute(userId: string) {
         const data = getLinesAndColumnsFromCSV(this.source);
 
         const firstEl = Transaction.createFromStringArray(data[0]);
