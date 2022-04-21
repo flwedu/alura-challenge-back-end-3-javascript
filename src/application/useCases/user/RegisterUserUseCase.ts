@@ -1,6 +1,6 @@
-import IRepository from "../../output/repositories/IRepository";
-import { IEncryptor } from "../../security/IEncryptor";
-import { User, UserProps } from "../domain/User";
+import IRepository from "../../../output/repositories/IRepository";
+import { IEncryptor } from "../../../security/IEncryptor";
+import { User, UserProps } from "../../domain/User";
 
 export class RegisterUserUseCase {
 

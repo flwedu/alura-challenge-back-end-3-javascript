@@ -1,5 +1,5 @@
-import { InMemoryUserRepository } from "../../output/repositories/test/InMemoryUserRepository";
-import Encryptor from "../../security/Encryptor";
+import { InMemoryUserRepository } from "../../../output/repositories/test/InMemoryUserRepository";
+import Encryptor from "../../../security/Encryptor";
 import { RegisterUserUseCase } from "./RegisterUserUseCase";
 
 describe('RegisterUserUseCase tests', () => {

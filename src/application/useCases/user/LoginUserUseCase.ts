@@ -1,6 +1,7 @@
-import IRepository from "../../output/repositories/IRepository";
-import { IEncryptor } from "../../security/IEncryptor";
-import { User } from "../domain/User";
+import IRepository from "../../../output/repositories/IRepository";
+import { IEncryptor } from "../../../security/IEncryptor";
+import { User } from "../../domain/User";
+
 
 export type LoginUserProps = {
     email: string,
