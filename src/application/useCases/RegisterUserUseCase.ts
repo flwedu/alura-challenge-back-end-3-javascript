@@ -9,6 +9,8 @@ export class RegisterUserUseCase {
 
         const user = await User.create(props);
 
-        return this.repository.save(user);
+        await this.repository.save(user);
+
+        return Promise.resolve(user);
     }
 }

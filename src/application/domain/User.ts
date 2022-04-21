@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import { checkPassword, hashPassword } from "../../util/password-encrypt";
 
 export type UserModel = {
     name: string,
@@ -8,6 +7,7 @@ export type UserModel = {
 
 export type UserProps = {
 
+    id?: string,
     name: string,
     email: string,
 }
@@ -19,21 +19,16 @@ export class User {
     public email: string;
     public password: string;
 
-    private constructor(props: UserProps, password: string, id?: string) {
-        this.id = id || crypto.randomUUID();
+    private constructor(props: UserProps, password: string) {
+        this.id = props.id || crypto.randomUUID();
         this.name = props.name;
-        this.email = props.name;
+        this.email = props.email;
         this.password = password;
 
     };
 
-    static async create(props: UserProps, id?: string) {
+    static async create(props: UserProps) {
         const password = Math.floor(100000 + Math.random() * 900000).toString().padStart(6);
-        const hashed = await hashPassword(password);
-        return new User(props, hashed, id);
-    }
-
-    async checkPassword(password: string) {
-        return checkPassword(password, this.password);
+        return new User(props, password);
     }
 }
