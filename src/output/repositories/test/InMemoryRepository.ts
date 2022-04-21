@@ -23,6 +23,10 @@ export class InMemoryRepository<T> implements IRepository<T>{
     };
 
     save(entity: any) {
+
+        const find = this.list.findIndex(el => el.email == entity.email);
+        if (find > -1) return Promise.reject("Email already registred");
+
         const oldLength = this.list.length;
         this.list.push(entity);
         const newLength = this.list.length;
