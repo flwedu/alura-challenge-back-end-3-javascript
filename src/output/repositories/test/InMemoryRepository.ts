@@ -29,10 +29,10 @@ export class InMemoryRepository<T> implements IRepository<T>{
         if (find > -1) return Promise.reject("Email already registred");
 
         // Hash password
-        entity.password = await hashPassword(entity.password);
+        const password = await hashPassword(entity.password);
 
         const oldLength = this.list.length;
-        this.list.push(entity);
+        this.list.push({ ...entity, password });
         const newLength = this.list.length;
         if (newLength > oldLength) return Promise.resolve(entity.id);
         return Promise.reject("Error saving")
