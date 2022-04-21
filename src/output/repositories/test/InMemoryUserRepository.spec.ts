@@ -1,12 +1,10 @@
-import Encryptor from "../../../security/Encryptor";
 import { InMemoryUserRepository } from "./InMemoryUserRepository";
 
-const encryptor = new Encryptor("123");
 
 test('should save a entity', async () => {
 
     const entity = { id: "1", name: '1', email: '1', password: "1" };
-    const repository = new InMemoryUserRepository(encryptor);
+    const repository = new InMemoryUserRepository();
 
     const id = await repository.save(entity);
     const list = await repository.find();
@@ -20,7 +18,7 @@ test('should return a list with right length', async () => {
 
     const entity = { id: "1", name: '1', email: '1', password: "1" };
     const entity2 = { id: "1", name: '1', email: '2', password: "1" };
-    const repository = new InMemoryUserRepository(encryptor);
+    const repository = new InMemoryUserRepository();
 
     await repository.save(entity);
     await repository.save(entity2);
@@ -32,7 +30,7 @@ test('should return a list with right length', async () => {
 
 test.each([{ name: "1" }, { email: "1" }])('should find one element with a query', async (query) => {
     const entity = { id: "1", name: '1', email: '1', password: "1" };
-    const repository = new InMemoryUserRepository(encryptor);
+    const repository = new InMemoryUserRepository();
 
     await repository.save(entity);
     const finded = await repository.findOne(query);
@@ -43,7 +41,7 @@ test.each([{ name: "1" }, { email: "1" }])('should find one element with a query
 
 test.each([{ name: "0" }, { email: "2" }])('should not find one element with a query', async (query) => {
     const entity = { id: "1", name: '1', email: '1', password: "1" };
-    const repository = new InMemoryUserRepository(encryptor);
+    const repository = new InMemoryUserRepository();
 
     await repository.save(entity);
 

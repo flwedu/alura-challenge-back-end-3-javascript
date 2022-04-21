@@ -1,12 +1,11 @@
 import { User } from "../../../application/domain/User";
-import { IEncryptor } from "../../../security/IEncryptor";
 import IRepository from "../IRepository";
 
 export class InMemoryUserRepository implements IRepository<User>{
 
     public list: User[];
 
-    constructor(private readonly encryptor: IEncryptor) {
+    constructor() {
         this.list = [];
     };
 
@@ -29,11 +28,8 @@ export class InMemoryUserRepository implements IRepository<User>{
         const find = this.list.findIndex(el => el.email == entity.email);
         if (find > -1) return Promise.reject("Email already registred");
 
-        // Hash password
-        const password = await this.encryptor.hashPassword(entity.password);
-
         const oldLength = this.list.length;
-        this.list.push({ ...entity, password });
+        this.list.push(entity);
         const newLength = this.list.length;
         if (newLength > oldLength) return Promise.resolve(entity.id);
         return Promise.reject("Error saving")
