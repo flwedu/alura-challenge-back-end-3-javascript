@@ -9,11 +9,8 @@ import { InMemoryTransactionRepository } from "./output/repositories/test/InMemo
 import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
 import Encryptor from "./security/Encryptor";
 
-// App env
-const secret = process.env.secret;
-
 const app = Express();
-const encryptor = new Encryptor(secret);
+const encryptor = new Encryptor(process.env.SECRET);
 const transactionRepository = new InMemoryTransactionRepository();
 const userRepository = new InMemoryUserRepository();
 

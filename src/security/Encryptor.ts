@@ -5,7 +5,7 @@ export default class Encryptor {
     private secret;
 
     constructor(secret?: string) {
-        this.secret = secret || process.env.secret || crypto.randomBytes(8).toString("hex");
+        this.secret = secret || crypto.randomBytes(8).toString("hex");
     }
 
     async hashPassword(password: string): Promise<string> {
