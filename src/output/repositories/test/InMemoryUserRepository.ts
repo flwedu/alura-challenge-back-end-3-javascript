@@ -1,34 +1,39 @@
-import { Transaction } from "../../../application/domain/Transaction";
+import { User } from "../../../application/domain/User";
 import { IEncryptor } from "../../../security/IEncryptor";
 import IRepository from "../IRepository";
 
-export class InMemoryTransactionRepository implements IRepository<Transaction>{
+export class InMemoryUserRepository implements IRepository<User>{
 
-    public list: Transaction[];
+    public list: User[];
 
-    constructor(encryptor: IEncryptor) {
+    constructor(private readonly encryptor: IEncryptor) {
         this.list = [];
     };
 
-    async findOne(query: { [index: string]: any }) {
+    async findOne(query: { email?: string, name?: string }) {
 
         const entries = Object.entries(query);
         const finded = this.list.find(el => {
             return entries.some(entry => {
                 const [key, value] = entry;
                 //@ts-ignore
-                if (el.props[key] == value) return true;
-                return false;
+                return (el[key] == value);
             })
         })
         if (finded) return Promise.resolve(finded);
         return Promise.reject("No element found");
     };
 
-    async save(entity: Transaction) {
+    async save(entity: User) {
+
+        const find = this.list.findIndex(el => el.email == entity.email);
+        if (find > -1) return Promise.reject("Email already registred");
+
+        // Hash password
+        const password = await this.encryptor.hashPassword(entity.password);
 
         const oldLength = this.list.length;
-        this.list.push({ ...entity });
+        this.list.push({ ...entity, password });
         const newLength = this.list.length;
         if (newLength > oldLength) return Promise.resolve(entity.id);
         return Promise.reject("Error saving")
@@ -41,7 +46,7 @@ export class InMemoryTransactionRepository implements IRepository<Transaction>{
     async find(query?: any) {
         return Promise.resolve(this.list);
     };
-    async update(entity: Transaction, id: string) {
+    async update(entity: User, id: string) {
         const result = this.list.findIndex(el => el.id == id);
         if (result < 0) return Promise.reject("Id not found");
         this.list[result] = entity;
