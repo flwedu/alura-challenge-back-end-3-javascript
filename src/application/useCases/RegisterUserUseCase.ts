@@ -1,7 +1,7 @@
 import IRepository from "../../output/repositories/IRepository";
 import { User, UserProps } from "../domain/User";
 
-export class CreateUserUseCase {
+export class RegisterUserUseCase {
 
     constructor(private readonly repository: IRepository<User>) { };
 
