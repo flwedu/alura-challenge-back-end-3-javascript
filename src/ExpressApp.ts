@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 import Express from "express";
 import session from "express-session";
@@ -18,7 +19,7 @@ const userRepository = new InMemoryUserRepository();
             id: "1",
             email: "admin@email.com.br",
             name: "Admin",
-            password: "123999"
+            password: await encryptor.hashPassword("123999")
         });
 })();
 
@@ -26,7 +27,12 @@ const userRepository = new InMemoryUserRepository();
 app.set("view engine", "ejs");
 
 // Middlewares
-app.use(Express.static("public"));
+app.use(session({
+    secret: process.env.SESSION_SECRET || "secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true, maxAge: 1200000 }
+}))
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 app.use(cookieParser());
