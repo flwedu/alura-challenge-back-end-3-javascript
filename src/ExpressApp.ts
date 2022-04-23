@@ -1,42 +1,29 @@
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-import Express from "express";
+import Express, { Router } from "express";
 import session from "express-session";
-import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
-import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
-import Encryptor from "./security/Encryptor";
-import routes from "./routes"
 
 const app = Express();
-const encryptor = new Encryptor(process.env.SECRET);
-const transactionRepository = new InMemoryTransactionRepository();
-const userRepository = new InMemoryUserRepository();
 
-// Temp: Registering admin login throught IIFE
-(async () => {
-    await userRepository.save(
-        {
-            id: "1",
-            email: "admin@email.com.br",
-            name: "Admin",
-            password: await encryptor.hashPassword("123999")
-        });
-})();
+const configureExpressApp = (routes?: Router) => {
 
-// Set view engine to ejs
-app.set("view engine", "ejs");
+    // Set view engine to ejs
+    app.set("view engine", "ejs");
 
-// Middlewares
-app.use(session({
-    secret: process.env.SESSION_SECRET || "secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, maxAge: 1200000 }
-}))
-app.use(Express.json());
-app.use(Express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(Express.static("public"));
-app.use("/", routes);
+    // Middlewares
+    app.use(session({
+        secret: process.env.SESSION_SECRET || "secret",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: true, maxAge: 1200000 }
+    }))
+    app.use(Express.json());
+    app.use(Express.urlencoded({ extended: true }));
+    app.use(cookieParser());
+    app.use(Express.static("public"));
+    if (routes) app.use("/", routes);
 
-export { app, transactionRepository, userRepository, encryptor };
+    return app;
+}
+
+export { configureExpressApp };
