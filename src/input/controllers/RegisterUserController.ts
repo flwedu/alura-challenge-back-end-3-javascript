@@ -13,8 +13,6 @@ export class RegisterUserController {
 
         const user = await new RegisterUserUseCase(this.repository, this.encryptor).execute({ name, email });
 
-        console.log(user);
-
         return response.redirect("/register");
     }
 }
