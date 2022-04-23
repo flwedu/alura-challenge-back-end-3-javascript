@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { FileInputController, LoginUserController, RegisterUserController } from "../input/controllers";
+import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController } from "../input/controllers";
 import { VerifyCredentialsController } from "../input/controllers/VerifyCredentialsController";
 import { HomeViewController, LoginUserViewController, RegisterUserViewController, UsersViewController } from "../input/view-controllers";
 import { RepositoriesSource } from "../output/repositories/RepositoriesSource";
@@ -32,6 +32,7 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     router.get("/login", (req, res) => new LoginUserViewController(userRepository).handle(req, res));
     router.get("/register", (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
     router.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res));
+    router.get("/logout", (req, res) => new LogoutUserController().handle(req, res))
 
     // POST Routes
     router.post("/home", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
