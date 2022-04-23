@@ -26,7 +26,7 @@ export class FileInputController {
                 if (err) {
                     console.error("error deleting upload: " + err);
                 }
-                return console.log("Deleted files");
+                return;
             });
         }
         return response.redirect("/");
