@@ -1,5 +1,6 @@
-import IRepository from "../../output/repositories/IRepository";
-import { Transaction } from "../domain/Transaction";
+import IRepository from "../../../output/repositories/IRepository";
+import { Transaction } from "../../domain/Transaction";
+
 
 export class SaveTransactionUseCase {
 

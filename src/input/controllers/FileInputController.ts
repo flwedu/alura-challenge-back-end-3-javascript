@@ -2,30 +2,34 @@ import fs from "fs";
 import { Request, Response } from "express";
 import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 import IRepository from "../../output/repositories/IRepository";
-import { SaveTransactionUseCase } from "../../application/useCases/SaveTransactionUseCase";
+import { SaveTransactionUseCase } from "../../application/useCases/transactions/SaveTransactionUseCase";
+import { Transaction } from "../../application/domain/Transaction";
 
 export class FileInputController {
 
-    constructor(private repository: IRepository<any>) { }
+    constructor(private repository: IRepository<Transaction>) { }
 
     async handle(request: Request, response: Response) {
 
-        console.log(request.file);
+        //@ts-ignore
+        const userId = request.session.userId;
 
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
             const adapter = new CSVToTransactionAdapter(fileSource);
-            const transactionsList = adapter.execute();
+            const transactionsList = adapter.execute(userId);
 
             for (let transaction of transactionsList) {
                 await new SaveTransactionUseCase(this.repository).execute(transaction);
             }
 
-            fs.rm(request.file.path, (err) => console.error("error deleting upload: " + err));
-            return response.redirect("/");
-            // return response.json(`Saved transaction ids: \n ${savedIds}`).status(201);
+            fs.rm(request.file.path, (err) => {
+                if (err) {
+                    console.error("error deleting upload: " + err);
+                }
+                return;
+            });
         }
-
-        return response.json({ message: "No file uploaded" }).status(400)
+        return response.redirect("/");
     }
 }

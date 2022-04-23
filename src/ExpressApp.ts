@@ -1,21 +1,27 @@
-import Express from "express";
-import multer from "multer";
-import { Transaction } from "./application/domain/Transaction";
-import { FileInputController } from "./input/controllers/FileInputController";
-import { FindAllController } from "./input/controllers/FindAllController";
-import { InMemoryRepository } from "./output/repositories/test/InMemoryRepository";
+import "dotenv/config";
+import Express, { Router } from "express";
+import session from "express-session";
 
 const app = Express();
-const repository = new InMemoryRepository<Transaction>();
 
-app.use("/", Express.static("public"));
-app.use(Express.json());
-app.use(Express.urlencoded({ extended: true }));
+const configureExpressApp = (routes?: Router) => {
 
-// Configure multer middleware and add to route
-const upload = multer({ dest: "uploads/" });
+    // Set view engine to ejs
+    app.set("view engine", "ejs");
 
-app.get("/transactions", async (req, res) => new FindAllController(repository).handle(req, res));
-app.post("/submit", upload.single("files"), async (req, res) => await new FileInputController(repository).handle(req, res));
+    // Middlewares
+    app.use(session({
+        secret: process.env.SECRET || "secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: { maxAge: 1200000 },
+    }))
+    app.use(Express.json());
+    app.use(Express.urlencoded({ extended: true }));
+    app.use(Express.static("public"));
+    if (routes) app.use("/", routes);
 
-export { app };
+    return app;
+}
+
+export { configureExpressApp };
