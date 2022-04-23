@@ -11,10 +11,15 @@ export class LoginUserController {
     async handle(request: Request, response: Response) {
         const { email, password } = request.body;
 
-        const logged = await new LoginUserUseCase(this.repository, this.encryptor).execute({ email, password });
-        if (logged) {
-            return response.redirect("/");
+        try {
+            const userId = await new LoginUserUseCase(this.repository, this.encryptor).execute({ email, password });
+
+            //@ts-ignore
+            request.session.userId = userId;
+            console.log(request.session);
+            return response.redirect("/home");
+        } catch (err) {
+            return response.redirect("/login");
         }
-        return response.redirect("/login");
     }
 }
