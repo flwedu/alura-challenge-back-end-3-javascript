@@ -1,4 +1,3 @@
-import cookieParser from "cookie-parser";
 import "dotenv/config";
 import Express, { Router } from "express";
 import session from "express-session";
@@ -12,14 +11,13 @@ const configureExpressApp = (routes?: Router) => {
 
     // Middlewares
     app.use(session({
-        secret: process.env.SESSION_SECRET || "secret",
+        secret: process.env.SECRET || "secret",
         resave: false,
-        saveUninitialized: true,
-        cookie: { secure: true, maxAge: 1200000 }
+        saveUninitialized: false,
+        cookie: { maxAge: 1200000 },
     }))
     app.use(Express.json());
     app.use(Express.urlencoded({ extended: true }));
-    app.use(cookieParser());
     app.use(Express.static("public"));
     if (routes) app.use("/", routes);
 
