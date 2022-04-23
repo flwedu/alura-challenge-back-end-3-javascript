@@ -11,6 +11,7 @@ const router = Router();
 const upload = multer({ dest: "uploads/" });
 
 // Static routes
+router.get("/", (req, res) => res.redirect("/home"));
 router.get("/home", new VerifyCredentialsController(userRepository, encryptor).handle, (req, res) => new HomeViewController(transactionRepository).handle(req, res));
 router.get("/login", (req, res) => new LoginUserViewController(userRepository).handle(req, res));
 router.get("/register", (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
