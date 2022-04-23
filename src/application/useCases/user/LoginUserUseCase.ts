@@ -19,7 +19,7 @@ export class LoginUserUseCase {
             const correctPassword = await this.encryptor.checkPassword(props.password, user.password);
 
             if (!correctPassword) throw new Error("Invalid password");
-            return Promise.resolve(true);
+            return Promise.resolve(user.id);
         }
         catch (err) {
             return Promise.reject(err);
