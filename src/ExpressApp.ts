@@ -1,11 +1,10 @@
 import "dotenv/config";
 import Express from "express";
-import multer from "multer";
-import { FileInputController, RegisterUserController, LoginUserController } from "./input/controllers";
-import { IndexViewController, LoginUserViewController, RegisterUserViewController, UsersViewController } from "./input/view-controllers";
+import session from "express-session";
 import { InMemoryTransactionRepository } from "./output/repositories/test/InMemoryTransactionRepository";
 import { InMemoryUserRepository } from "./output/repositories/test/InMemoryUserRepository";
 import Encryptor from "./security/Encryptor";
+import routes from "./routes"
 
 const app = Express();
 const encryptor = new Encryptor(process.env.SECRET);
@@ -14,7 +13,13 @@ const userRepository = new InMemoryUserRepository();
 
 // Temp: Registering admin login throught IIFE
 (async () => {
-    await userRepository.save({ id: "1", email: "admin@email.com.br", name: "Admin", password: "123999" });
+    await userRepository.save(
+        {
+            id: "1",
+            email: "admin@email.com.br",
+            name: "Admin",
+            password: "123999"
+        });
 })();
 
 // Set view engine to ejs
@@ -24,18 +29,8 @@ app.set("view engine", "ejs");
 app.use(Express.static("public"));
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
-// Configure multer middleware and add to route
-const upload = multer({ dest: "uploads/" });
+app.use(cookieParser());
+app.use(Express.static("public"));
+app.use("/", routes);
 
-// Static routes
-app.get("/", (req, res) => new IndexViewController(transactionRepository).handle(req, res));
-app.get("/login", (req, res) => new LoginUserViewController(userRepository).handle(req, res));
-app.get("/register", (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
-app.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res));
-
-// POST Routes
-app.post("/", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
-app.post("/register", (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res));
-app.post("/login", (req, res) => new LoginUserController(userRepository, encryptor).handle(req, res));
-
-export { app };
+export { app, transactionRepository, userRepository, encryptor };
