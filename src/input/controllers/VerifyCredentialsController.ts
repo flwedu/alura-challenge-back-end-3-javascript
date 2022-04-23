@@ -14,6 +14,7 @@ export class VerifyCredentialsController {
             await this.repository.findById(session.userId);
             next();
         } catch (err) {
+            request.session.destroy(() => { });
             response.redirect("/login");
         }
     }
