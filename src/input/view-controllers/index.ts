@@ -1,6 +1,6 @@
-import { IndexViewController } from "./IndexViewController";
+import { HomeViewController } from "./HomeViewController";
 import { LoginUserViewController } from "./LoginUserViewController";
 import { UsersViewController } from "./UsersViewController";
 import { RegisterUserViewController } from "./RegisterUserViewController";
 
-export { IndexViewController, LoginUserViewController, UsersViewController, RegisterUserViewController };
+export { HomeViewController, LoginUserViewController, UsersViewController, RegisterUserViewController };
