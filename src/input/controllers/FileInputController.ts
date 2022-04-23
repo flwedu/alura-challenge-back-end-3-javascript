@@ -11,7 +11,8 @@ export class FileInputController {
 
     async handle(request: Request, response: Response) {
 
-        const userId = request.params.userId;
+        //@ts-ignore
+        const userId = request.session.userId;
 
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
