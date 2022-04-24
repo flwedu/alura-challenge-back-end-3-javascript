@@ -3,6 +3,7 @@ import multer from "multer";
 import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController } from "../input/controllers";
 import { VerifyCredentialsController } from "../input/controllers/VerifyCredentialsController";
 import { HomeViewController, LoginUserViewController, RegisterUserViewController, UsersViewController } from "../input/view-controllers";
+import { TransactionImportDetailsViewController } from "../input/view-controllers/TransactionImportDetailsViewController";
 import { RepositoriesSource } from "../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../security/IEncryptor";
 
@@ -29,10 +30,11 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     // Static routes
     router.get("/", (req, res) => res.redirect("/home"));
     router.get("/home", (req, res) => new HomeViewController(transactionRepository).handle(req, res));
+    router.get("/home/:id", (req, res) => new TransactionImportDetailsViewController(transactionRepository, userRepository).handle(req, res))
     router.get("/login", (req, res) => new LoginUserViewController(userRepository).handle(req, res));
     router.get("/register", (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
     router.get("/users", (req, res) => new UsersViewController(userRepository).handle(req, res));
-    router.get("/logout", (req, res) => new LogoutUserController().handle(req, res))
+    router.get("/logout", (req, res) => new LogoutUserController().handle(req, res));
 
     // POST Routes
     router.post("/home", upload.single("files"), (req, res) => new FileInputController(transactionRepository).handle(req, res));
