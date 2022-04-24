@@ -23,9 +23,10 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     const upload = multer({ dest: "uploads/" });
 
     // Credentials middleware
-    router.use("/home", (req, res, next) => new VerifyCredentialsController(userRepository, encryptor).handle(req, res, next));
-    router.use("/register", (req, res, next) => new VerifyCredentialsController(userRepository, encryptor).handle(req, res, next));
-    router.use("/users", (req, res, next) => new VerifyCredentialsController(userRepository, encryptor).handle(req, res, next));
+    const verifyCredentials = new VerifyCredentialsController(userRepository, encryptor);
+    router.use("/home", (req, res, next) => verifyCredentials.handle(req, res, next));
+    router.use("/register", (req, res, next) => verifyCredentials.handle(req, res, next));
+    router.use("/users", (req, res, next) => verifyCredentials.handle(req, res, next));
 
     // Static routes
     router.get("/", (req, res) => res.redirect("/home"));
