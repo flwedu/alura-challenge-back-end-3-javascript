@@ -5,8 +5,8 @@ export class LoadAllTransactionsImportsFromUserUseCase {
 
     constructor(private readonly repository: IRepository<TransactionsImport>) { }
 
-    execute(id: string) {
+    execute(userId: string) {
 
-        return this.repository.find({ id });
+        return this.repository.find({ userId });
     }
 }
