@@ -1,0 +1,18 @@
+<table id="table" class="table">
+  <thead class="thead-light">
+    <th>Data das transações</th>
+    <th>Data de importação</th>
+    <th>Opções</th>
+  </thead>
+  <tbody>
+    <% transactionsImports.forEach(function (transactionImport) { %>
+    <tr>
+      <td><%= transactionImport.transactionsDate %></td>
+      <td><%= transactionImport.date %></td>
+      <td>
+        <a href="<%= "/home/" + transactionImport.id %>" class="btn btn-primary">Detalhar</a>
+      </td>
+    </tr>
+   <% }); %>
+  </tbody>
+</table>

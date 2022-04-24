@@ -1,9 +1,9 @@
-import { Transaction } from "../../../application/domain/Transaction";
+import { TransactionsImport } from "../../../application/domain/TransactionsImport";
 import IRepository from "../IRepository";
 
-export class InMemoryTransactionRepository implements IRepository<Transaction>{
+export class InMemoryTransactionImportRepository implements IRepository<TransactionsImport>{
 
-    public list: Transaction[];
+    public list: TransactionsImport[];
 
     constructor() {
         this.list = [];
@@ -24,7 +24,7 @@ export class InMemoryTransactionRepository implements IRepository<Transaction>{
         return Promise.reject("No element found");
     };
 
-    async save(entity: Transaction) {
+    async save(entity: TransactionsImport) {
 
         const oldLength = this.list.length;
         this.list.push({ ...entity });
@@ -40,7 +40,7 @@ export class InMemoryTransactionRepository implements IRepository<Transaction>{
     async find(query?: any) {
         return Promise.resolve(this.list);
     };
-    async update(entity: Transaction, id: string) {
+    async update(entity: TransactionsImport, id: string) {
         const result = this.list.findIndex(el => el.id == id);
         if (result < 0) return Promise.reject("Id not found");
         this.list[result] = entity;

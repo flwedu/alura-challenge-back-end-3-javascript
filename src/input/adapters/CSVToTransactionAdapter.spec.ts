@@ -24,7 +24,7 @@ test('should return a array with one transaction', () => {
     })
 })
 
-test('should return only 1 transaction when the second has a different date', () => {
+test('should an array with 2 transactions', () => {
 
     const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00
 BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-02T07:30:00`
@@ -33,17 +33,5 @@ BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-02T07:30:0
     const result = adapter.execute("1");
 
     expect.assertions(1);
-    expect(result.length).toEqual(1);
-})
-
-test('should return only transactions without empty fields when the second has a different date', () => {
-
-    const input = `BANCO DO BRASIL,,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00
-BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,,2022-01-02T07:30:00`
-    const adapter = new CSVToTransactionAdapter(input);
-
-    const result = adapter.execute("1");
-
-    expect.assertions(1);
-    expect(result.length).toEqual(0);
+    expect(result.length).toEqual(2);
 })

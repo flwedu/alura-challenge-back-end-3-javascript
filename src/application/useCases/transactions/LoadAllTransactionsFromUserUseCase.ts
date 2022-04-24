@@ -1,9 +1,9 @@
 import IRepository from "../../../output/repositories/IRepository";
-import { Transaction } from "../../domain/Transaction";
+import { TransactionsImport } from "../../domain/TransactionsImport";
 
-export class LoadAllTransactionsFromUserUseCase {
+export class LoadAllTransactionsImportsFromUserUseCase {
 
-    constructor(private readonly repository: IRepository<Transaction>) { }
+    constructor(private readonly repository: IRepository<TransactionsImport>) { }
 
     execute(id: string) {
 

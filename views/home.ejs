@@ -28,27 +28,11 @@
         <input class="btn btn-primary" type="submit" value="Importar" />
       </div>
     </form>
-    <% if (transactions.length) {%>
+    <% if (transactionsImports.length) {%>
     <div id="table__div">
-      <h1>Lista de transações importadas</h1>
-      <table id="table" class="table">
-        <thead class="thead-light">
-          <th>Banco Origem</th>
-          <th>Ag Origem</th>
-          <th>Conta de Origem</th>
-          <th>Banco Destino</th>
-          <th>Ag Destino</th>
-          <th>Conta Destino</th>
-          <th>Valor</th>
-          <th>Data</th>
-        </thead>
-        <tbody>
-          <% transactions.forEach(function (transaction) { %> <%-
-          include("partials/transaction", {transaction: transaction}); %> <% });
-          %>
-        </tbody>
-      </table>
+      <%- include('partials/transactionsImports', {transactionsImports:
+      transactionsImports}); %>
     </div>
-    <% }; %>
+    <% } %>
   </body>
 </html>

@@ -12,16 +12,7 @@ export class CSVToTransactionAdapter {
             return this.createTransactionFromLine(line, userId)
         })
 
-        const firstTransaction = allTransactions[0];
-
-        // Criando um array de transações
-        // Filtrando apenas transações da mesma data
-        // E transações sem campos nulos
-        const filtredTransactions = allTransactions
-            .filter(el => el.props.date.getDate() == firstTransaction.props.date.getDate()
-                && el.props.allFieldsFull
-            );
-        return filtredTransactions;
+        return allTransactions;
     }
 
     private createTransactionFromLine(source: string[], userId: string) {

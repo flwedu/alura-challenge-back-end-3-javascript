@@ -1,13 +1,13 @@
-import fs from "fs";
 import { Request, Response } from "express";
-import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
+import fs from "fs";
+import { TransactionsImport } from "../../application/domain/TransactionsImport";
+import RegisterTransactionsImportUseCase from "../../application/useCases/transactions/RegisterTransactionsImportUseCase";
 import IRepository from "../../output/repositories/IRepository";
-import { SaveTransactionUseCase } from "../../application/useCases/transactions/SaveTransactionUseCase";
-import { Transaction } from "../../application/domain/Transaction";
+import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
 
 export class FileInputController {
 
-    constructor(private repository: IRepository<Transaction>) { }
+    constructor(private repository: IRepository<TransactionsImport>) { }
 
     async handle(request: Request, response: Response) {
 
@@ -17,11 +17,9 @@ export class FileInputController {
         if (request.file) {
             const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
             const adapter = new CSVToTransactionAdapter(fileSource);
-            const transactionsList = adapter.execute(userId);
+            const transactions = adapter.execute(userId);
 
-            for (let transaction of transactionsList) {
-                await new SaveTransactionUseCase(this.repository).execute(transaction);
-            }
+            await new RegisterTransactionsImportUseCase(this.repository).execute({ userId, transactions })
 
             fs.rm(request.file.path, (err) => {
                 if (err) {

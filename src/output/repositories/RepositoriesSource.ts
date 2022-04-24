@@ -1,7 +1,7 @@
-import { Transaction } from "../../application/domain/Transaction";
+import { TransactionsImport } from "../../application/domain/TransactionsImport";
 import { User } from "../../application/domain/User";
-import IRepository from "./IRepository"
-import { InMemoryTransactionRepository } from "./test/InMemoryTransactionRepository";
+import IRepository from "./IRepository";
+import { InMemoryTransactionImportRepository } from "./test/InMemoryTransactionImportRepository";
 import { InMemoryUserRepository } from "./test/InMemoryUserRepository";
 
 /**
@@ -9,7 +9,7 @@ import { InMemoryUserRepository } from "./test/InMemoryUserRepository";
  */
 export type RepositoriesSource = {
     userRepository: IRepository<User>;
-    transactionsRepository: IRepository<Transaction>;
+    transactionsRepository: IRepository<TransactionsImport>;
 }
 
 /**
@@ -19,10 +19,10 @@ export type RepositoriesSource = {
 const getInMemoryRepository = (): RepositoriesSource => {
     const repositories = {
         userRepository: new InMemoryUserRepository(),
-        transactionsRepository: new InMemoryTransactionRepository()
+        transactionsRepository: new InMemoryTransactionImportRepository()
     } as RepositoriesSource;
 
     return repositories;
 }
 
-export { getInMemoryRepository }
+export { getInMemoryRepository };
