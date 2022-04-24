@@ -16,22 +16,35 @@
 
   <body>
     <header><%- include("partials/header") %></header>
-    <h1>Importar transações</h1>
-    <p>
-      Faça upload de um arquivo <code>CSV</code> para importar as transações:
-    </p>
+    <div class="container mt-3">
+      <h1>Importar transações</h1>
+      <p>
+        Faça upload de um arquivo <code>CSV</code> para importar as transações:
+      </p>
 
-    <form id="form" method="post" action="/home" enctype="multipart/form-data">
-      <div class="group">
-        <input class="form-control" type="file" name="files" id="files" />
-        <br />
-        <input class="btn btn-primary" type="submit" value="Importar" />
+      <form
+        id="form"
+        method="post"
+        action="/home"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group col-sm-8">
+          <input class="form-control" type="file" name="files" id="files" />
+          <br />
+          <input
+            class="btn btn-primary col-sm-5"
+            type="submit"
+            value="Importar"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="container-sm mt-3">
+      <% if (transactionsImports.length) {%>
+      <div id="table__div">
+        <%- include('partials/transactionsImports', {transactionsImports:
+        transactionsImports}); %>
       </div>
-    </form>
-    <% if (transactionsImports.length) {%>
-    <div id="table__div">
-      <%- include('partials/transactionsImports', {transactionsImports:
-      transactionsImports}); %>
     </div>
     <% } %>
   </body>

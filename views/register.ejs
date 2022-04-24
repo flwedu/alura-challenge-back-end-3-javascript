@@ -11,25 +11,33 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./styles/styles.css" />
-    <title>Cadastrar Novo Usuario</title>
+    <title>Cadastrar Usuário</title>
   </head>
   <body>
     <header><%- include("partials/header") %></header>
-    <div class="row">
-      <h1>Cadastrar Novo Usuário</h1>
-      <div class="col-sm-8">
-        <div class="card">
-          <div class="card-body">
+    <div class="container mt-3">
+      <h1>Cadastrar Usuário</h1>
+      <div class="row g-3 align-items-center">
+        <div class="card col-sm-5">
+          <div class="card-body align-items-center">
             <form action="/register" method="post">
-              <div class="form-group">
-                <label for="email"
-                  >Email: <input type="email" name="email" id="email"
-                /></label>
+              <div class="mb-3">
+                <input
+                  type="name"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  placeholder="Nome"
+                />
               </div>
-              <div class="form-group">
-                <label for="name"
-                  >Nome: <input type="name" name="name" id="name"
-                /></label>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="E-mail"
+                />
               </div>
               <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
