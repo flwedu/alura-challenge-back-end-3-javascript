@@ -1,6 +1,7 @@
 import IRepository from "../../../output/repositories/IRepository";
 import { IEncryptor } from "../../../security/IEncryptor";
 import { User } from "../../domain/User";
+import { ErrorMessage } from "../../errors/ErrorMessage";
 
 
 export type LoginUserProps = {
@@ -18,8 +19,8 @@ export class LoginUserUseCase {
             const user = await this.repository.findOne({ email: props.email });
             const correctPassword = await this.encryptor.checkPassword(props.password, user.password);
 
-            if (!user.active) throw new Error("No element found");
-            if (!correctPassword) throw new Error("Invalid password");
+            if (!user.active) throw new Error(ErrorMessage.USER_INACTIVE());
+            if (!correctPassword) throw new Error(ErrorMessage.INVALID_CREDENTIALS());
             return Promise.resolve(user.id);
         }
         catch (err) {

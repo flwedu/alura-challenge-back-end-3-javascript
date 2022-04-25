@@ -1,6 +1,9 @@
 import { InMemoryUserRepository } from "../../../output/repositories/test/InMemoryUserRepository";
 import Encryptor from "../../../security/Encryptor";
 import { User } from "../../domain/User";
+import BusinessRuleError from "../../errors/BusinessRuleError";
+import { ErrorMessage } from "../../errors/ErrorMessage";
+import ResourceNotFoundError from "../../errors/ResourceNotFoundError";
 import { LoginUserUseCase } from "./LoginUserUseCase";
 import { RegisterUserUseCase } from "./RegisterUserUseCase";
 
@@ -39,7 +42,7 @@ describe('LoginUserUseCase tests', () => {
         }
 
         expect.assertions(1);
-        await expect(sut.execute(inputData)).rejects.toEqual("No element found");
+        await expect(sut.execute(inputData)).rejects.toEqual(new ResourceNotFoundError());
     })
 
     test('should throw error invalid password', async () => {
@@ -50,12 +53,12 @@ describe('LoginUserUseCase tests', () => {
         }
 
         expect.assertions(1);
-        await expect(sut.execute(inputData)).rejects.toEqual(new Error("Invalid password"));
+        await expect(sut.execute(inputData)).rejects.toEqual(new BusinessRuleError(ErrorMessage.INVALID_CREDENTIALS()));
     })
 
     test('should throw error for inactive user', async () => {
 
-        await repository.save({ id: "1", email: "testInactive@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: false });
+        await repository.save({ id: "2", email: "testInactive@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: false });
 
         const inputData = {
             email: "testInactive@email.com",
@@ -63,6 +66,6 @@ describe('LoginUserUseCase tests', () => {
         }
 
         expect.assertions(1);
-        await expect(sut.execute(inputData)).rejects.toEqual(new Error("No element found"));
+        await expect(sut.execute(inputData)).rejects.toEqual(new BusinessRuleError(ErrorMessage.USER_INACTIVE()));
     })
 })

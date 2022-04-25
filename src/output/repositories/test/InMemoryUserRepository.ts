@@ -1,4 +1,7 @@
 import { User } from "../../../application/domain/User";
+import BusinessRuleError from "../../../application/errors/BusinessRuleError";
+import { ErrorMessage } from "../../../application/errors/ErrorMessage";
+import ResourceNotFoundError from "../../../application/errors/ResourceNotFoundError";
 import IRepository from "../IRepository";
 
 export class InMemoryUserRepository implements IRepository<User>{
@@ -19,24 +22,24 @@ export class InMemoryUserRepository implements IRepository<User>{
                 return (el[key] == value);
             })
         })
-        if (finded) return Promise.resolve(finded);
-        return Promise.reject("No element found");
+        if (!finded) throw new ResourceNotFoundError();
+        return Promise.resolve(finded);
     };
 
     async save(entity: User) {
 
         const find = this.list.findIndex(el => el.email == entity.email);
-        if (find > -1) return Promise.reject("Email already registred");
+        if (find > -1) throw new BusinessRuleError(ErrorMessage.ALREADY_REGISTRED("Email"));
 
         const oldLength = this.list.length;
         this.list.push(entity);
         const newLength = this.list.length;
         if (newLength > oldLength) return Promise.resolve(entity.id);
-        return Promise.reject("Error saving")
+        throw new Error("Error saving");
     };
     async findById(id: string) {
         const result = this.list.find(el => el.id == id);
-        if (!result) return Promise.reject("Id not found");
+        if (!result) throw new ResourceNotFoundError(id);
         return Promise.resolve(result);
     };
     async find(query?: any) {
@@ -44,13 +47,13 @@ export class InMemoryUserRepository implements IRepository<User>{
     };
     async update(entity: User, id: string) {
         const result = this.list.findIndex(el => el.id == id);
-        if (result < 0) return Promise.reject("Id not found");
+        if (result < 0) throw new ResourceNotFoundError(id);
         this.list[result] = entity;
         return Promise.resolve(id);
     };
     async delete(id: string) {
         const index = this.list.findIndex(el => el.id == id);
-        if (index < 0) return Promise.reject("Id not found");
+        if (index < 0) throw new ResourceNotFoundError(id);
 
         const user = this.list[index];
         user.active = false;

@@ -1,3 +1,4 @@
+import ResourceNotFoundError from "../../../application/errors/ResourceNotFoundError";
 import { InMemoryUserRepository } from "./InMemoryUserRepository";
 
 
@@ -54,5 +55,5 @@ test.each([{ name: "0" }, { email: "2" }])('should not find one element with a q
     await repository.save(entity);
 
     expect.assertions(1);
-    await expect(repository.findOne(query)).rejects.toEqual("No element found");
+    await expect(repository.findOne(query)).rejects.toEqual(new ResourceNotFoundError());
 })

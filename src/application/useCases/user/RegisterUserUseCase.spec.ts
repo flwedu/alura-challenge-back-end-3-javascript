@@ -1,5 +1,7 @@
 import { InMemoryUserRepository } from "../../../output/repositories/test/InMemoryUserRepository";
 import Encryptor from "../../../security/Encryptor";
+import BusinessRuleError from "../../errors/BusinessRuleError";
+import { ErrorMessage } from "../../errors/ErrorMessage";
 import { RegisterUserUseCase } from "./RegisterUserUseCase";
 
 describe('RegisterUserUseCase tests', () => {
@@ -36,7 +38,7 @@ describe('RegisterUserUseCase tests', () => {
             await sut.execute(input);
 
             expect.assertions(2);
-            await expect(sut.execute(input)).rejects.toEqual("Email already registred");
+            await expect(sut.execute(input)).rejects.toEqual(new BusinessRuleError(ErrorMessage.ALREADY_REGISTRED("Email")));
             expect(spy).toBeCalledTimes(2);
         })
     })

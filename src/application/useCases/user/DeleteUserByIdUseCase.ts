@@ -1,5 +1,7 @@
 import IRepository from "../../../output/repositories/IRepository";
 import { User } from "../../domain/User";
+import BusinessRuleError from "../../errors/BusinessRuleError";
+import { ErrorMessage } from "../../errors/ErrorMessage";
 
 export class DeleteUserByIdUseCase {
 
@@ -7,16 +9,20 @@ export class DeleteUserByIdUseCase {
 
     async execute(props: { actualId: string, idToDelete: string }): Promise<string> {
 
-        // Verify if the logged user exists
-        const user = await this.repository.findById(props.actualId);
+        try {
+            // Verify if the logged user exists
+            const user = await this.repository.findById(props.actualId);
+            // Check if the user is Admin
+            if (user.name == "Admin") throw new BusinessRuleError((ErrorMessage.CANT_DELETE.ADMIN()));
 
-        // Check if the user is Admin
-        if (user.name == "Admin") return Promise.reject("Can't delete the Admin");
+            // Check if the logged user id == idToDelete
+            if (props.actualId == props.idToDelete) throw new BusinessRuleError((ErrorMessage.CANT_DELETE.LOGGED_USER()));
 
-        // Check if the logged user id == idToDelete
-        if (props.actualId == props.idToDelete) return Promise.reject("Can't delete the logged user");
+            const deletedId = await this.repository.delete(props.idToDelete);
+            return Promise.resolve(deletedId);
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
-        const deletedId = await this.repository.delete(props.idToDelete);
-        return Promise.resolve(deletedId);
     }
 }

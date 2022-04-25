@@ -1,5 +1,8 @@
 import { InMemoryUserRepository } from "../../../output/repositories/test/InMemoryUserRepository";
 import { User } from "../../domain/User";
+import BusinessRuleError from "../../errors/BusinessRuleError";
+import { ErrorMessage } from "../../errors/ErrorMessage";
+import ResourceNotFoundError from "../../errors/ResourceNotFoundError";
 import { DeleteUserByIdUseCase } from "./DeleteUserByIdUseCase";
 
 describe('Delete User by Id use case:', () => {
@@ -28,7 +31,7 @@ describe('Delete User by Id use case:', () => {
             const sut = new DeleteUserByIdUseCase(repository);
             await repository.save(user);
 
-            await expect(sut.execute({ actualId: "1", idToDelete: "1" })).rejects.toEqual("Can't delete the logged user");
+            await expect(sut.execute({ actualId: "1", idToDelete: "1" })).rejects.toEqual(new BusinessRuleError(ErrorMessage.CANT_DELETE.LOGGED_USER()));
         })
 
         test('When trying to delete a invalid id', async () => {
@@ -38,7 +41,7 @@ describe('Delete User by Id use case:', () => {
             const sut = new DeleteUserByIdUseCase(repository);
             await repository.save(user);
 
-            await expect(sut.execute({ actualId: "1", idToDelete: "2" })).rejects.toEqual("Id not found");
+            await expect(sut.execute({ actualId: "1", idToDelete: "2" })).rejects.toEqual(new ResourceNotFoundError("2"));
         })
 
     })
