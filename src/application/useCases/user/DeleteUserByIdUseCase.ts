@@ -8,7 +8,10 @@ export class DeleteUserByIdUseCase {
     async execute(props: { actualId: string, idToDelete: string }): Promise<string> {
 
         // Verify if the logged user exists
-        await this.repository.findById(props.actualId);
+        const user = await this.repository.findById(props.actualId);
+
+        // Check if the user is Admin
+        if (user.name == "Admin") return Promise.reject("Can't delete the Admin");
 
         // Check if the logged user id == idToDelete
         if (props.actualId == props.idToDelete) return Promise.reject("Can't delete the logged user");
