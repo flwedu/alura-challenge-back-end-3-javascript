@@ -51,8 +51,10 @@ export class InMemoryUserRepository implements IRepository<User>{
     async delete(id: string) {
         const index = this.list.findIndex(el => el.id == id);
         if (index < 0) return Promise.reject("Id not found");
-        this.list.splice(index, 1);
-        return Promise.resolve(id);
+
+        const user = this.list[index];
+        user.active = false;
+        return Promise.resolve(user.id);
     };
 
 }
