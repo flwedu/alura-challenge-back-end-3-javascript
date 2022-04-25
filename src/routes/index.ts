@@ -1,9 +1,8 @@
 import { Router } from "express";
 import multer from "multer";
-import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController } from "../input/controllers";
-import { VerifyCredentialsController } from "../input/controllers/VerifyCredentialsController";
-import { HomeViewController, LoginUserViewController, RegisterUserViewController, UsersViewController } from "../input/view-controllers";
-import { TransactionImportDetailsViewController } from "../input/view-controllers/TransactionImportDetailsViewController";
+import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController, VerifyCredentialsController } from "../input/controllers";
+import { errorHandler } from "../input/controllers/";
+import { HomeViewController, LoginUserViewController, RegisterUserViewController, TransactionImportDetailsViewController, UsersViewController } from "../input/view-controllers";
 import { RepositoriesSource } from "../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../security/IEncryptor";
 
