@@ -8,7 +8,7 @@ describe('Controllers: VerifyCredentials', () => {
     const encryptor = new Encryptor("123");
 
     beforeAll(async () => {
-        await repository.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456") })
+        await repository.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: true })
     })
 
     test('should call redirect() to home page if login is valid', async () => {
@@ -34,10 +34,36 @@ describe('Controllers: VerifyCredentials', () => {
         expect(response.redirect).toHaveBeenCalledWith("/home");
     })
 
-    test('should call redirect() to login page if login is invalid', async () => {
+    test('should call redirect() to login page if password is invalid', async () => {
         const request = {
             body: {
                 email: "test@email.com",
+                password: "123"
+            },
+            session: {}
+        }
+        const response = {
+            redirect: jest.fn(),
+        }
+        const next = jest.fn();
+        const sut = new LoginUserController(repository, encryptor);
+
+        //@ts-ignore
+        await sut.handle(request, response, next);
+
+        expect.assertions(2);
+        //@ts-ignore
+        expect(request.session.userId).toBeFalsy();
+        expect(response.redirect).toHaveBeenCalledWith("/login");
+    })
+
+    test('should call redirect() to login page if login is inactive', async () => {
+
+        await repository.save({ id: "2", email: "testInactive@email.com", name: "test", password: await encryptor.hashPassword("123"), active: false });
+
+        const request = {
+            body: {
+                email: "testInactive@email.com",
                 password: "123"
             },
             session: {}

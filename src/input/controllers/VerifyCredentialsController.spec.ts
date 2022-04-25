@@ -8,7 +8,7 @@ describe('Controllers: VerifyCredentials', () => {
     const encryptor = new Encryptor("123");
 
     beforeAll(async () => {
-        await repository.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456") })
+        await repository.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: true })
     })
 
     test('should call next() if userId is valid', async () => {

@@ -21,7 +21,7 @@ describe('RegisterUserUseCase tests', () => {
 
         expect.assertions(2);
         expect(spy).toBeCalledTimes(1);
-        expect(await repository.findById(savedUser.id)).toEqual({ ...input, password: expect.any(String) });
+        expect(await repository.findById(savedUser.id)).toEqual({ ...input, password: expect.any(String), active: true });
     })
 
     describe('Should throw an error: ', () => {

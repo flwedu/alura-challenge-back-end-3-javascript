@@ -3,7 +3,7 @@ import { InMemoryUserRepository } from "./InMemoryUserRepository";
 
 test('should save a entity', async () => {
 
-    const entity = { id: "1", name: '1', email: '1', password: "1" };
+    const entity = { id: "1", name: '1', email: '1', password: "1", active: true };
     const repository = new InMemoryUserRepository();
 
     const id = await repository.save(entity);
@@ -16,8 +16,12 @@ test('should save a entity', async () => {
 
 test('should return a list with right length', async () => {
 
-    const entity = { id: "1", name: '1', email: '1', password: "1" };
-    const entity2 = { id: "1", name: '1', email: '2', password: "1" };
+    const entity = {
+        id: "1", name: '1', email: '1', password: "1", active: true
+    };
+    const entity2 = {
+        id: "1", name: '1', email: '2', password: "1", active: true
+    };
     const repository = new InMemoryUserRepository();
 
     await repository.save(entity);
@@ -29,7 +33,9 @@ test('should return a list with right length', async () => {
 })
 
 test.each([{ name: "1" }, { email: "1" }])('should find one element with a query', async (query) => {
-    const entity = { id: "1", name: '1', email: '1', password: "1" };
+    const entity = {
+        id: "1", name: '1', email: '1', password: "1", active: true
+    };
     const repository = new InMemoryUserRepository();
 
     await repository.save(entity);
@@ -40,7 +46,9 @@ test.each([{ name: "1" }, { email: "1" }])('should find one element with a query
 })
 
 test.each([{ name: "0" }, { email: "2" }])('should not find one element with a query', async (query) => {
-    const entity = { id: "1", name: '1', email: '1', password: "1" };
+    const entity = {
+        id: "1", name: '1', email: '1', password: "1", active: true
+    };
     const repository = new InMemoryUserRepository();
 
     await repository.save(entity);

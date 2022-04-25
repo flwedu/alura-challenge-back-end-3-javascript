@@ -18,13 +18,14 @@ export class User {
     public name: string;
     public email: string;
     public password: string;
+    public active: boolean
 
     private constructor(props: UserProps, password: string) {
         this.id = props.id || crypto.randomUUID();
         this.name = props.name;
         this.email = props.email;
         this.password = password;
-
+        this.active = true;
     };
 
     static async create(props: UserProps) {
