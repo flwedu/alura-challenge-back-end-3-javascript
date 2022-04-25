@@ -11,7 +11,8 @@ export class VerifyCredentialsController {
         const session = request.session;
         try {
             //@ts-ignore
-            await this.repository.findById(session.userId);
+            const user = await this.repository.findById(session.userId);
+            if (!user.active) throw new Error("Inactive user");
             next();
         } catch (err) {
             request.session.destroy(() => { });
