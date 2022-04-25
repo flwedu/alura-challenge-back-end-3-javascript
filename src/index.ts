@@ -13,7 +13,8 @@ const repositories = getInMemoryRepository();
             id: "1",
             email: "admin@email.com.br",
             name: "Admin",
-            password: await encryptor.hashPassword("123999")
+            password: await encryptor.hashPassword("123999"),
+            active: true
         });
 })();
 
