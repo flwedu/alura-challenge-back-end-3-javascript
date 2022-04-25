@@ -1,13 +1,16 @@
-<table id="table" class="table">
+<table id="table" class="table table-bordered mt-3 text-center">
   <thead class="thead-light">
-    <th>Banco Origem</th>
-    <th>Ag Origem</th>
-    <th>Conta de Origem</th>
-    <th>Banco Destino</th>
-    <th>Ag Destino</th>
-    <th>Conta Destino</th>
-    <th>Valor</th>
-    <th>Data</th>
+    <tr>
+      <th colspan="3">Origem</th>
+      <th colspan="3">Destino</th>
+      <th rowspan="2">Valor</th>
+    </tr>
+    <th>Banco</th>
+    <th>Agência</th>
+    <th>Conta</th>
+    <th>Banco</th>
+    <th>Agência</th>
+    <th>Conta</th>
   </thead>
   <tbody>
     <% transactions.forEach(function (transaction) { %>
@@ -19,7 +22,6 @@
       <td><%= transaction.props.destinyBankAgency %></td>
       <td><%= transaction.props.destinyBankNumber %></td>
       <td><%= transaction.props.value %></td>
-      <td><%= transaction.props.date %></td>
     </tr>
     <% });%>
   </tbody>
