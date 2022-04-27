@@ -3,7 +3,6 @@ import { User } from "../../application/domain/User";
 import { LoginUserUseCase } from "../../application/useCases/user/LoginUserUseCase";
 import IRepository from "../../output/repositories/IRepository";
 import { IEncryptor } from "../../security/IEncryptor";
-import { LoginUserViewController } from "../view-controllers";
 
 export class LoginUserController {
 
@@ -14,10 +13,8 @@ export class LoginUserController {
 
         try {
             const userId = await new LoginUserUseCase(this.repository, this.encryptor).execute({ email, password });
-
             //@ts-ignore
             request.session.userId = userId;
-            console.log(request.session);
             return response.redirect("/home");
         } catch (err) {
             //@ts-ignore
