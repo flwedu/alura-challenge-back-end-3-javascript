@@ -31,7 +31,7 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     router.post("/home", upload.single("files"),
         (req, res) => new FileInputController(transactionRepository).handle(req, res));
     router.post("/register",
-        (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res));
+        (req, res, next) => new RegisterUserController(userRepository, encryptor).handle(req, res, next));
     router.post("/login",
         (req, res) => new LoginUserController(userRepository, encryptor).handle(req, res, new LoginUserViewController())
     );
