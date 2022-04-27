@@ -4,9 +4,8 @@ export class LoginUserViewController {
 
     constructor() { };
 
-    async handle(request: Request, response: Response, err?: Error) {
+    async handle(request: Request, response: Response, error?: Error) {
 
-        if (!err) return response.render("login", { error: "" });
-        return response.render("login", { error: err });
+        return response.render("login", { error });
     }
 }
