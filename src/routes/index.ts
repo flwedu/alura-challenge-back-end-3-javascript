@@ -27,6 +27,15 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     router.use("/register", (req, res, next) => verifyCredentials.handle(req, res, next));
     router.use("/users", (req, res, next) => verifyCredentials.handle(req, res, next));
 
+    // POST Routes
+    router.post("/home", upload.single("files"),
+        (req, res) => new FileInputController(transactionRepository).handle(req, res));
+    router.post("/register",
+        (req, res) => new RegisterUserController(userRepository, encryptor).handle(req, res));
+    router.post("/login",
+        (req, res) => new LoginUserController(userRepository, encryptor).handle(req, res, new LoginUserViewController())
+    );
+
     // Static routes
     router.get("/",
         (req, res) => res.redirect("/home"));
