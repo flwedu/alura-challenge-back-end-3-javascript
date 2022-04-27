@@ -1,6 +1,7 @@
 import IRepository from "../../../output/repositories/IRepository";
 import { IEncryptor } from "../../../security/IEncryptor";
 import { User } from "../../domain/User";
+import BusinessRuleError from "../../errors/BusinessRuleError";
 import { ErrorMessage } from "../../errors/ErrorMessage";
 
 
@@ -19,8 +20,8 @@ export class LoginUserUseCase {
             const user = await this.repository.findOne({ email: props.email });
             const correctPassword = await this.encryptor.checkPassword(props.password, user.password);
 
-            if (!user.active) throw new Error(ErrorMessage.USER_INACTIVE());
-            if (!correctPassword) throw new Error(ErrorMessage.INVALID_CREDENTIALS());
+            if (!user.active) throw new BusinessRuleError(ErrorMessage.USER_INACTIVE());
+            if (!correctPassword) throw new BusinessRuleError(ErrorMessage.INVALID_CREDENTIALS());
             return Promise.resolve(user.id);
         }
         catch (err) {
