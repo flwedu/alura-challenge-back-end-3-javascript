@@ -51,10 +51,9 @@ describe('Controllers: VerifyCredentials', () => {
         //@ts-ignore
         await sut.handle(request, response, next);
 
-        expect.assertions(3);
+        expect.assertions(2);
         expect(next).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/login");
-        expect(request.session.destroy).toHaveBeenCalled();
     })
 
     test('should call redirect() to /login if session is undefined', async () => {
@@ -73,9 +72,8 @@ describe('Controllers: VerifyCredentials', () => {
         //@ts-ignore
         await sut.handle(request, response, next);
 
-        expect.assertions(3);
+        expect.assertions(2);
         expect(next).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/login");
-        expect(request.session.destroy).toHaveBeenCalled();
     })
 })
