@@ -5,3 +5,7 @@
 tbody tr:nth-child(even) {
   background-color: gainsboro;
 }
+
+.error_message span {
+  color: red;
+}

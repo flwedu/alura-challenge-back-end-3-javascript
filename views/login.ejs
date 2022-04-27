@@ -17,6 +17,11 @@
     <header><%- include("partials/header") %></header>
     <div class="container mt-3">
       <h1>Login</h1>
+      <% if(error) { %>
+      <div class="error_message">
+        <span><%= error.message %> </span>
+      </div>
+      <% } %>
       <div class="row g-3 align-items-center">
         <div class="card col-sm-5">
           <div class="card-body align-items-center">
