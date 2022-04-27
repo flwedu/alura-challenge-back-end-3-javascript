@@ -7,7 +7,7 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
         if (errorCode) {
             res.status(errorCode).render("error", { error: err, errorCode });
         }
-        else res.render("error", { error: err, errorCode: "" });
+        else res.render("error", { error: err, errorCode: 500 });
     }
     else {
         next();
@@ -16,5 +16,5 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
 
 const ErrorCode = {
     "ResourceNotFoundError": 404,
-    "BusinessRuleError": 500
+    "BusinessRuleError": 400
 } as { [index: string]: number }
