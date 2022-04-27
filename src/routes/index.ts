@@ -3,6 +3,7 @@ import multer from "multer";
 import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController, VerifyCredentialsController } from "../input/controllers";
 import { errorHandler } from "../input/controllers/";
 import { HomeViewController, LoginUserViewController, RegisterUserViewController, TransactionImportDetailsViewController, UsersViewController } from "../input/view-controllers";
+import { SuspectsViewController } from "../input/view-controllers/SuspectsViewContoller";
 import { RepositoriesSource } from "../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../security/IEncryptor";
 
@@ -50,6 +51,7 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
         (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
     router.get("/users",
         (req, res) => new UsersViewController(userRepository).handle(req, res));
+    router.get("/suspects", (req, res) => new SuspectsViewController(transactionRepository).handle(req, res))
     router.get("/logout",
         (req, res) => new LogoutUserController().handle(req, res));
 
