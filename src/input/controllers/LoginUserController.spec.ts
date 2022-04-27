@@ -1,5 +1,8 @@
+import BusinessRuleError from "../../application/errors/BusinessRuleError";
+import { ErrorMessage } from "../../application/errors/ErrorMessage";
 import { InMemoryUserRepository } from "../../output/repositories/test/InMemoryUserRepository";
 import Encryptor from "../../security/Encryptor";
+import { LoginUserViewController } from "../view-controllers";
 import { LoginUserController } from "./LoginUserController";
 
 describe('Controllers: VerifyCredentials', () => {
@@ -22,11 +25,11 @@ describe('Controllers: VerifyCredentials', () => {
         const response = {
             redirect: jest.fn(),
         }
-        const next = jest.fn();
+        const loginViewFn = jest.fn();
         const sut = new LoginUserController(repository, encryptor);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut.handle(request, response, loginViewFn);
 
         expect.assertions(2);
         //@ts-ignore
@@ -45,16 +48,17 @@ describe('Controllers: VerifyCredentials', () => {
         const response = {
             redirect: jest.fn(),
         }
-        const next = jest.fn();
+        const loginViewFn = new LoginUserViewController();
+        loginViewFn.handle = jest.fn();
         const sut = new LoginUserController(repository, encryptor);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut.handle(request, response, loginViewFn);
 
         expect.assertions(2);
         //@ts-ignore
         expect(request.session.userId).toBeFalsy();
-        expect(response.redirect).toHaveBeenCalledWith("/login");
+        expect(loginViewFn.handle).toHaveBeenCalledWith(request, response, new BusinessRuleError(ErrorMessage.INVALID_CREDENTIALS()));
     })
 
     test('should call redirect() to login page if login is inactive', async () => {
@@ -71,15 +75,16 @@ describe('Controllers: VerifyCredentials', () => {
         const response = {
             redirect: jest.fn(),
         }
-        const next = jest.fn();
+        const loginViewFn = new LoginUserViewController();
+        loginViewFn.handle = jest.fn();
         const sut = new LoginUserController(repository, encryptor);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut.handle(request, response, loginViewFn);
 
         expect.assertions(2);
         //@ts-ignore
         expect(request.session.userId).toBeFalsy();
-        expect(response.redirect).toHaveBeenCalledWith("/login");
+        expect(loginViewFn.handle).toHaveBeenCalledWith(request, response, new BusinessRuleError(ErrorMessage.USER_INACTIVE()));
     })
 })

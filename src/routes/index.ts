@@ -35,7 +35,8 @@ const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor
     router.get("/home/:id",
         (req, res) => new TransactionImportDetailsViewController(transactionRepository, userRepository).handle(req, res))
     router.get("/login",
-        (req, res) => new LoginUserViewController(userRepository).handle(req, res));
+        //@ts-ignore
+        (req, res) => new LoginUserViewController().handle(req, res));
     router.get("/register",
         (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
     router.get("/users",
