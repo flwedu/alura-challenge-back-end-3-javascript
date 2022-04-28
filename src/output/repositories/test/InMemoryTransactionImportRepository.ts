@@ -1,4 +1,5 @@
 import { TransactionsImport } from "../../../application/domain/TransactionsImport";
+import ResourceNotFoundError from "../../../application/errors/ResourceNotFoundError";
 import IRepository from "../IRepository";
 
 export class InMemoryTransactionImportRepository implements IRepository<TransactionsImport>{
@@ -20,8 +21,8 @@ export class InMemoryTransactionImportRepository implements IRepository<Transact
                 return false;
             })
         })
-        if (finded) return Promise.resolve(finded);
-        return Promise.reject("No element found");
+        if (!finded) throw new ResourceNotFoundError();
+        return Promise.resolve(finded);
     };
 
     async save(entity: TransactionsImport) {
@@ -34,7 +35,7 @@ export class InMemoryTransactionImportRepository implements IRepository<Transact
     };
     async findById(id: string) {
         const result = this.list.find(el => el.id == id);
-        if (!result) return Promise.reject("Id not found");
+        if (!result) throw new ResourceNotFoundError(id);
         return Promise.resolve(result);
     };
     async find(query?: any) {
@@ -42,13 +43,13 @@ export class InMemoryTransactionImportRepository implements IRepository<Transact
     };
     async update(entity: TransactionsImport, id: string) {
         const result = this.list.findIndex(el => el.id == id);
-        if (result < 0) return Promise.reject("Id not found");
+        if (result < 0) throw new ResourceNotFoundError(id);
         this.list[result] = entity;
         return Promise.resolve(id);
     };
     async delete(id: string) {
         const index = this.list.findIndex(el => el.id == id);
-        if (index < 0) return Promise.reject("Id not found");
+        if (index < 0) throw new ResourceNotFoundError(id);
         this.list.splice(index, 1);
         return Promise.resolve(id);
     };
