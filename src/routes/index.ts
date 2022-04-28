@@ -1,11 +1,11 @@
 import { Router } from "express";
-import multer from "multer";
-import { FileInputController, LoginUserController, LogoutUserController, RegisterUserController, VerifyCredentialsController } from "../input/controllers";
+import { VerifyCredentialsController } from "../input/controllers";
 import { errorHandler } from "../input/controllers/";
-import { HomeViewController, LoginUserViewController, RegisterUserViewController, TransactionImportDetailsViewController, UsersViewController } from "../input/view-controllers";
-import { SuspectsViewController } from "../input/view-controllers/SuspectsViewContoller";
 import { RepositoriesSource } from "../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../security/IEncryptor";
+import { configureTransactionsImportsRoutes } from "./transactions-imports-routes";
+import { configureTransactionsRoutes } from "./transactions-routes";
+import { configureUsersRoutes } from "./users-routes";
 
 const router = Router();
 /**
@@ -16,44 +16,16 @@ const router = Router();
  */
 const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor): Router => {
 
-    const userRepository = repositories.userRepository;
-    const transactionRepository = repositories.transactionsRepository;
-
-    // Configure multer middleware and add to route
-    const upload = multer({ dest: "uploads/" });
-
     // Credentials middleware
-    const verifyCredentials = new VerifyCredentialsController(userRepository, encryptor);
+    const verifyCredentials = new VerifyCredentialsController(repositories.userRepository, encryptor);
     router.use("/home", (req, res, next) => verifyCredentials.handle(req, res, next));
     router.use("/register", (req, res, next) => verifyCredentials.handle(req, res, next));
     router.use("/users", (req, res, next) => verifyCredentials.handle(req, res, next));
 
-    // POST Routes
-    router.post("/home", upload.single("files"),
-        (req, res) => new FileInputController(transactionRepository).handle(req, res));
-    router.post("/register",
-        (req, res, next) => new RegisterUserController(userRepository, encryptor).handle(req, res, next));
-    router.post("/login",
-        (req, res) => new LoginUserController(userRepository, encryptor).handle(req, res, new LoginUserViewController())
-    );
-
-    // Static routes
-    router.get("/",
-        (req, res) => res.redirect("/home"));
-    router.get("/home",
-        (req, res) => new HomeViewController(transactionRepository).handle(req, res));
-    router.get("/home/:id",
-        (req, res) => new TransactionImportDetailsViewController(transactionRepository, userRepository).handle(req, res))
-    router.get("/login",
-        //@ts-ignore
-        (req, res) => new LoginUserViewController().handle(req, res));
-    router.get("/register",
-        (req, res) => new RegisterUserViewController(userRepository).handle(req, res));
-    router.get("/users",
-        (req, res) => new UsersViewController(userRepository).handle(req, res));
-    router.get("/suspects", (req, res) => new SuspectsViewController(transactionRepository).handle(req, res))
-    router.get("/logout",
-        (req, res) => new LogoutUserController().handle(req, res));
+    // Configuring routes relcted to entities
+    configureTransactionsImportsRoutes(router, repositories);
+    configureUsersRoutes(router, repositories, encryptor);
+    configureTransactionsRoutes(router, repositories);
 
     // Errors handlers
     router.use(errorHandler);
