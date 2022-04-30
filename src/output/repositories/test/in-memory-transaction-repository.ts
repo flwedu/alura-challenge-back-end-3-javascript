@@ -30,6 +30,13 @@ export class InMemoryTransactionRepository implements ITransactionRepository {
         if (newLength > oldLength) return Promise.resolve(transaction.id);
         throw new Error("Error saving");
     }
+    async saveAll(transactions: Transaction[]) {
+        const oldLength = this.list.length;
+        this.list.push(...transactions);
+        const newLength = this.list.length;
+        if (newLength > oldLength) return Promise.resolve();
+        throw new Error("Error saving");
+    }
     async update(transaction: Transaction, id: string): Promise<string> {
         const result = this.list.findIndex((el) => el.id == id);
         if (result < 0) throw new ResourceNotFoundError(id);
