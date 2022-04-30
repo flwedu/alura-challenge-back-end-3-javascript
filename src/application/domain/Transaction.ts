@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 export type TransactionProps = {
-
+    [index: string]: any,
     originBankName: string,
     originBankAgency: string,
     originBankNumber: string,
@@ -12,7 +12,7 @@ export type TransactionProps = {
     date: Date;
     allFieldsFull: boolean;
     userId: string;
-    importId: string;
+    importId?: string;
 }
 
 export class Transaction {
