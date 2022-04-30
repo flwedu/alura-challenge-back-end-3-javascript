@@ -23,4 +23,17 @@ const repositories = getInMemoryRepositories();
 const router = configureRouter(repositories, encryptor);
 const app = configureExpressApp(router);
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}/`))
+app.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}/`));
+
+// Caught exceptions
+process.on("uncaughtException", (error, origin) => {
+    console.error(`${origin} signal received: ${error}`);
+    app.render("error", { errorCode: 500, error })
+})
+
+// Shutdown app
+process.on("SIGINT", function (code) {
+    console.log("Shutdown command received... closing application with ", code);
+    //@ts-ignore
+    process.exit(code);
+})
