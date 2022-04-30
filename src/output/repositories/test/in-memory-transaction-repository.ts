@@ -1,5 +1,6 @@
 import { Transaction } from "../../../application/domain/Transaction";
 import ResourceNotFoundError from "../../../application/errors/ResourceNotFoundError";
+import { sameDayInCalendar } from "../../../input/utils/date-functions";
 import ITransactionRepository from "../ITransactionRepository";
 
 export class InMemoryTransactionRepository implements ITransactionRepository {
@@ -21,6 +22,9 @@ export class InMemoryTransactionRepository implements ITransactionRepository {
     }
     async findAllByImportId(importId: string): Promise<Transaction[]> {
         return Promise.resolve(this.list.filter(el => el.props.importId == importId))
+    }
+    async findAllByDate(date: Date) {
+        return Promise.resolve(this.list.filter(el => sameDayInCalendar(el.props.date, date)))
     }
     async save(transaction: Transaction): Promise<string> {
 
