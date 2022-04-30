@@ -33,6 +33,20 @@ test('should return a list with right length', async () => {
     expect(list).toHaveLength(2);
 })
 
+test("should find an element by id", async () => {
+
+    const entity = {
+        id: "1", name: '1', email: "test@email.com", password: "1", active: true
+    };
+    const repository = new InMemoryUserRepository();
+
+    await repository.save(entity);
+    const finded = await repository.findById("1");
+
+    expect.assertions(1);
+    expect(finded).toEqual({ ...entity })
+})
+
 test('should find one element by email', async () => {
     const entity = {
         id: "1", name: '1', email: "test@email.com", password: "1", active: true
@@ -44,6 +58,14 @@ test('should find one element by email', async () => {
 
     expect.assertions(1);
     expect(finded).toEqual({ ...entity, password: expect.any(String) });
+})
+
+test("should throw error when not finding an element by id", async () => {
+
+    const repository = new InMemoryUserRepository();
+
+    expect.assertions(1);
+    await expect(repository.findById("1")).rejects.toEqual(new ResourceNotFoundError("1"))
 })
 
 test('should throw error when trying to find one element by email', async () => {
