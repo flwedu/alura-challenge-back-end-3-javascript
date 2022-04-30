@@ -10,12 +10,12 @@ export function configureTransactionsImportsRoutes(router: Router, repositories:
     const upload = multer({ dest: "uploads/" });
 
     router.post("/home", upload.single("files"),
-        (req, res) => new FileInputController(repositories.transactionsRepository).handle(req, res));
+        (req, res) => new FileInputController(repositories).handle(req, res));
 
     router.get("/",
         (req, res) => res.redirect("/home"));
     router.get("/home",
-        (req, res) => new HomeViewController(repositories.transactionsRepository).handle(req, res));
+        (req, res) => new HomeViewController(repositories).handle(req, res));
     router.get("/home/:id",
-        (req, res) => new TransactionImportDetailsViewController(repositories.transactionsRepository, repositories.userRepository).handle(req, res))
+        (req, res) => new TransactionImportDetailsViewController(repositories).handle(req, res))
 }

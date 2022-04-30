@@ -7,9 +7,9 @@ import { IEncryptor } from "../security/IEncryptor";
 export function configureUsersRoutes(router: Router, repositories: RepositoriesSource, encryptor: IEncryptor) {
 
     router.post("/register",
-        (req, res, next) => new RegisterUserController(repositories.userRepository, encryptor).handle(req, res, next));
+        (req, res, next) => new RegisterUserController(repositories, encryptor).handle(req, res, next));
     router.post("/login",
-        (req, res) => new LoginUserController(repositories.userRepository, encryptor).handle(req, res, new LoginUserViewController())
+        (req, res) => new LoginUserController(repositories, encryptor).handle(req, res, new LoginUserViewController())
     );
 
     router.get("/login",
@@ -18,7 +18,7 @@ export function configureUsersRoutes(router: Router, repositories: RepositoriesS
     router.get("/register",
         (req, res) => new RegisterUserViewController().handle(req, res));
     router.get("/users",
-        (req, res) => new UsersViewController(repositories.userRepository).handle(req, res));
+        (req, res) => new UsersViewController(repositories).handle(req, res));
     router.get("/logout",
         (req, res) => new LogoutUserController().handle(req, res));
 }

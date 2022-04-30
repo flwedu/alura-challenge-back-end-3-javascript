@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { TransactionsImport } from "../../application/domain/TransactionsImport";
-import IRepository from "../../output/repositories/IRepository";
+import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 
 export class SuspectsViewController {
 
-    constructor(private readonly repository: IRepository<TransactionsImport>) { };
+    constructor(private readonly repositories: RepositoriesSource) { };
 
     async handle(request: Request, response: Response) {
 
-        return response.render("suspects");
+        const transactions = await this.repositories.transactions.findAll();
+        return response.render("suspects", { transactions });
     }
 }

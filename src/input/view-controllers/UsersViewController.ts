@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { User } from "../../application/domain/User";
 import { LoadAllUsersUseCase } from "../../application/useCases/user/LoadAllUsersUseCase";
-import IRepository from "../../output/repositories/IRepository";
+import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 import { UserModel } from "../model/UserModel";
 
 export class UsersViewController {
 
-    constructor(private readonly repository: IRepository<User>) { };
+    constructor(private readonly repositories: RepositoriesSource) { };
 
     async handle(request: Request, response: Response) {
-        const usersEntities = await new LoadAllUsersUseCase(this.repository).execute();
+        const usersEntities = await new LoadAllUsersUseCase(this.repositories.users).execute();
         const users = usersEntities.map(el => new UserModel({ ...el }));
 
         return response.render("users", { users });

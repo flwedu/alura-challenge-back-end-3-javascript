@@ -1,19 +1,17 @@
 //@ts-nocheck
-import { Request, Response, NextFunction } from "express";
-import { User } from "../../application/domain/User";
+import { NextFunction, Request, Response } from "express";
 import BusinessRuleError from "../../application/errors/BusinessRuleError";
 import { ErrorMessage } from "../../application/errors/ErrorMessage";
-import IRepository from "../../output/repositories/IRepository";
-import { IEncryptor } from "../../security/IEncryptor";
+import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 
 export class VerifyCredentialsController {
 
-    constructor(private readonly repository: IRepository<User>, private readonly encryptor: IEncryptor) { };
+    constructor(private readonly repositories: RepositoriesSource) { };
 
     async handle(request: Request, response: Response, next: NextFunction) {
-        const session = request.session;
         try {
-            const user = await this.repository.findById(session.userId);
+            const session = request.session;
+            const user = await this.repositories.users.findById(session.userId);
             if (!user.active) throw new BusinessRuleError(ErrorMessage.USER_INACTIVE());
             next();
         } catch (err) {

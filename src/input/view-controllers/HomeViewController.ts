@@ -1,17 +1,16 @@
 import { Request, Response } from "express";
-import { TransactionsImport } from "../../application/domain/TransactionsImport";
 import { LoadAllTransactionsImportsFromUserUseCase } from "../../application/useCases/transactions/LoadAllTransactionsFromUserUseCase";
+import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 
-import IRepository from "../../output/repositories/IRepository";
 
 export class HomeViewController {
 
-    constructor(private readonly repository: IRepository<TransactionsImport>) { };
+    constructor(private readonly repositories: RepositoriesSource) { };
 
     async handle(request: Request, response: Response) {
         const session = request.session;
         //@ts-ignore
-        const transactionsImports = await new LoadAllTransactionsImportsFromUserUseCase(this.repository).execute(session.userId);
+        const transactionsImports = await new LoadAllTransactionsImportsFromUserUseCase(this.repositories.transactionsImports).execute(session.userId);
 
         return response.render("home", { transactionsImports: transactionsImports });
     }

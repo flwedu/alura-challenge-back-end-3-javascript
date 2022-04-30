@@ -1,14 +1,14 @@
-import { InMemoryUserRepository } from "../../output/repositories/test/InMemoryUserRepository"
+import { getInMemoryRepositories } from "../../output/repositories/RepositoriesSource";
 import Encryptor from "../../security/Encryptor";
-import { VerifyCredentialsController } from "./VerifyCredentialsController"
+import { VerifyCredentialsController } from "./VerifyCredentialsController";
 
 describe('Controllers: VerifyCredentials', () => {
 
-    const repository = new InMemoryUserRepository();
+    const repositories = getInMemoryRepositories()
     const encryptor = new Encryptor("123");
 
     beforeAll(async () => {
-        await repository.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: true })
+        await repositories.users.save({ id: "1", email: "test@email.com", name: "test", password: await encryptor.hashPassword("123456"), active: true })
     })
 
     test('should call next() if userId is valid', async () => {
@@ -23,7 +23,7 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repository, encryptor);
+        const sut = new VerifyCredentialsController(repositories);
 
         //@ts-ignore
         await sut.handle(request, response, next);
@@ -46,7 +46,7 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repository, encryptor);
+        const sut = new VerifyCredentialsController(repositories);
 
         //@ts-ignore
         await sut.handle(request, response, next);
@@ -67,7 +67,7 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repository, encryptor);
+        const sut = new VerifyCredentialsController(repositories);
 
         //@ts-ignore
         await sut.handle(request, response, next);

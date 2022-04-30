@@ -17,7 +17,7 @@ const router = Router();
 const configureRouter = (repositories: RepositoriesSource, encryptor: IEncryptor): Router => {
 
     // Credentials middleware
-    const verifyCredentials = new VerifyCredentialsController(repositories.userRepository, encryptor);
+    const verifyCredentials = new VerifyCredentialsController(repositories);
     router.use("/home", (req, res, next) => verifyCredentials.handle(req, res, next));
     router.use("/register", (req, res, next) => verifyCredentials.handle(req, res, next));
     router.use("/users", (req, res, next) => verifyCredentials.handle(req, res, next));
