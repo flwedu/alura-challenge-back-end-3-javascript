@@ -1,3 +1,5 @@
+import crypto from "crypto";
+import { User } from "./application/domain/User";
 import { configureExpressApp } from "./ExpressApp";
 import { getInMemoryRepositories } from "./output/repositories/RepositoriesSource";
 import configureRouter from "./routes";
@@ -8,14 +10,14 @@ const repositories = getInMemoryRepositories();
 
 //Add default user
 (async () => {
-    await repositories.userRepository.save(
+    await repositories.users.save(
         {
-            id: "1",
+            id: crypto.randomUUID(),
             email: "admin@email.com.br",
             name: "Admin",
             password: await encryptor.hashPassword("123999"),
             active: true
-        });
+        } as User);
 })();
 
 const router = configureRouter(repositories, encryptor);
