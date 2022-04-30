@@ -7,6 +7,7 @@ export default interface ITransactionRepository {
     findAllByUserId(userId: string): Promise<Transaction[]>
     findAllByImportId(importId: string): Promise<Transaction[]>
     findAllByDate(date: Date): Promise<Transaction[]>
+    findAllByMinimumValue(minValue: number, date: Date): Promise<Transaction[]>
     save(transaction: Transaction): Promise<string>
     saveAll(transactions: Transaction[]): Promise<void>
     update(transaction: Transaction, id: string): Promise<string>
