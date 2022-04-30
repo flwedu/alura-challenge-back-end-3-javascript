@@ -1,10 +1,10 @@
 import { configureExpressApp } from "./ExpressApp";
-import { getInMemoryRepository } from "./output/repositories/RepositoriesSource";
+import { getInMemoryRepositories } from "./output/repositories/RepositoriesSource";
 import configureRouter from "./routes";
 import Encryptor from "./security/Encryptor";
 
 const encryptor = new Encryptor(process.env.SECRET);
-const repositories = getInMemoryRepository();
+const repositories = getInMemoryRepositories();
 
 //Add default user
 (async () => {
