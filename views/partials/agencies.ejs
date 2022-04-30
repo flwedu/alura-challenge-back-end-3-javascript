@@ -1,0 +1,18 @@
+<table id="table" class="table table-bordered mt-3 text-center">
+  <thead class="thead-light">
+    <th>Banco</th>
+    <th>Agência</th>
+    <th>Valor Movimentado</th>
+    <th>Tipo de Movimentação</th>
+  </thead>
+  <tbody>
+    <% agencies.forEach(function (agency) { %>
+    <tr>
+      <td><%= agency.bank %></td>
+      <td><%= agency.agency %></td>
+      <td><%= agency.value %></td>
+      <td><%= agency.type %></td>
+    </tr>
+    <% });%>
+  </tbody>
+</table>

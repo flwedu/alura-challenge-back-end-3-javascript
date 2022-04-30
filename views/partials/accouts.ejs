@@ -1,0 +1,20 @@
+<table id="table" class="table table-bordered mt-3 text-center">
+  <thead class="thead-light">
+    <th>Banco</th>
+    <th>Agência</th>
+    <th>Conta</th>
+    <th>Valor Movimentado</th>
+    <th>Tipo de Movimentação</th>
+  </thead>
+  <tbody>
+    <% accounts.forEach(function (account) { %>
+    <tr>
+      <td><%= account.bank %></td>
+      <td><%= account.agency %></td>
+      <td><%= account.number %></td>
+      <td><%= account.value %></td>
+      <td><%= account.type %></td>
+    </tr>
+    <% });%>
+  </tbody>
+</table>
