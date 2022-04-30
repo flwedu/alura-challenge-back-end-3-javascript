@@ -27,7 +27,7 @@ export class CSVToTransactionAdapter {
             value: source[6],
             date: new Date(source[7]),
             allFieldsFull: true,
-            userId
+            userId,
         };
 
         const entries = Object.entries(props);
