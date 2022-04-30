@@ -11,7 +11,8 @@ export type TransactionProps = {
     value: string;
     date: Date;
     allFieldsFull: boolean;
-    userId: string
+    userId: string;
+    importId: string;
 }
 
 export class Transaction {
