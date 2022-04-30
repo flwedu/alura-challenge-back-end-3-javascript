@@ -1,9 +1,8 @@
-import IRepository from "../../../output/repositories/IRepository";
-import { TransactionsImport } from "../../domain/TransactionsImport";
+import ITransactionImportRepository from "../../../output/repositories/ITransactionImportRepository";
 
 export class LoadTransactionImportByIdUseCase {
 
-    constructor(private readonly repository: IRepository<TransactionsImport>) { }
+    constructor(private readonly repository: ITransactionImportRepository) { }
 
     execute(id: string) {
 

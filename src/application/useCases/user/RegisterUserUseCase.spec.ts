@@ -1,4 +1,4 @@
-import { InMemoryUserRepository } from "../../../output/repositories/test/InMemoryUserRepository";
+import { InMemoryUserRepository } from "../../../output/repositories/test";
 import Encryptor from "../../../security/Encryptor";
 import BusinessRuleError from "../../errors/BusinessRuleError";
 import { ErrorMessage } from "../../errors/ErrorMessage";

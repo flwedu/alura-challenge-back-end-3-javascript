@@ -1,12 +1,11 @@
-import IRepository from "../../../output/repositories/IRepository";
-import { TransactionsImport } from "../../domain/TransactionsImport";
+import ITransactionImportRepository from "../../../output/repositories/ITransactionImportRepository";
 
 export class LoadAllTransactionsImportsFromUserUseCase {
 
-    constructor(private readonly repository: IRepository<TransactionsImport>) { }
+    constructor(private readonly repository: ITransactionImportRepository) { }
 
     execute(userId: string) {
 
-        return this.repository.find({ userId });
+        return this.repository.findAllByUserId(userId);
     }
 }

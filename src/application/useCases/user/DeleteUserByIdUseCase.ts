@@ -1,11 +1,10 @@
-import IRepository from "../../../output/repositories/IRepository";
-import { User } from "../../domain/User";
+import IUserRepository from "../../../output/repositories/IUserRepository";
 import BusinessRuleError from "../../errors/BusinessRuleError";
 import { ErrorMessage } from "../../errors/ErrorMessage";
 
 export class DeleteUserByIdUseCase {
 
-    constructor(private readonly repository: IRepository<User>) { };
+    constructor(private readonly repository: IUserRepository) { };
 
     async execute(props: { actualId: string, idToDelete: string }): Promise<string> {
 

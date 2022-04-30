@@ -1,6 +1,5 @@
-import IRepository from "../../../output/repositories/IRepository";
+import IUserRepository from "../../../output/repositories/IUserRepository";
 import { IEncryptor } from "../../../security/IEncryptor";
-import { User } from "../../domain/User";
 import BusinessRuleError from "../../errors/BusinessRuleError";
 import { ErrorMessage } from "../../errors/ErrorMessage";
 
@@ -12,12 +11,12 @@ export type LoginUserProps = {
 
 export class LoginUserUseCase {
 
-    constructor(private readonly repository: IRepository<User>, private readonly encryptor: IEncryptor) { };
+    constructor(private readonly repository: IUserRepository, private readonly encryptor: IEncryptor) { };
 
     async execute(props: LoginUserProps) {
 
         try {
-            const user = await this.repository.findOne({ email: props.email });
+            const user = await this.repository.findByEmail(props.email);
             const correctPassword = await this.encryptor.checkPassword(props.password, user.password);
 
             if (!user.active) throw new BusinessRuleError(ErrorMessage.USER_INACTIVE());

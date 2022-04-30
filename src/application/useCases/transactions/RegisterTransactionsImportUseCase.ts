@@ -1,10 +1,12 @@
-import IRepository from "../../../output/repositories/IRepository";
+import ITransactionImportRepository from "../../../output/repositories/ITransactionImportRepository";
+import ITransactionRepository from "../../../output/repositories/ITransactionRepository";
 import { Transaction } from "../../domain/Transaction";
 import { TransactionsImport } from "../../domain/TransactionsImport";
 
 export default class RegisterTransactionsImportUseCase {
 
-    constructor(private readonly repository: IRepository<TransactionsImport>) { }
+    constructor(private readonly transactionImportRepository: ITransactionImportRepository,
+        private readonly transactionRepository: ITransactionRepository) { }
 
     async execute(props: { userId: string, transactions: Transaction[] }) {
 
@@ -19,6 +21,12 @@ export default class RegisterTransactionsImportUseCase {
             userId: props.userId
         });
 
-        return this.repository.save(transactionImport);
+        const transactionImportId = await this.transactionImportRepository.save(transactionImport);
+        // Add importId to each transaction
+        props.transactions.forEach(async (transaction) => {
+            transaction.props.importId = transactionImportId
+            await this.transactionRepository.save(transaction)
+        });
+        return transactionImportId;
     }
 }

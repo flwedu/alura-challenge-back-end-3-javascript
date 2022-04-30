@@ -1,10 +1,10 @@
-import IRepository from "../../../output/repositories/IRepository";
+import IUserRepository from "../../../output/repositories/IUserRepository";
 import { IEncryptor } from "../../../security/IEncryptor";
 import { User, UserProps } from "../../domain/User";
 
 export class RegisterUserUseCase {
 
-    constructor(private readonly repository: IRepository<User>, private readonly encryptor: IEncryptor) { };
+    constructor(private readonly repository: IUserRepository, private readonly encryptor: IEncryptor) { };
 
     async execute(props: UserProps) {
 
