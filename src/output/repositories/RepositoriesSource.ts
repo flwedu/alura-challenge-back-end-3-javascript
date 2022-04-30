@@ -16,7 +16,7 @@ export type RepositoriesSource = {
  * This function is used to create in memory repositories to tests.  
  * @returns {RepositoriesSource} a wrapper to **repositories**
  */
-const getInMemoryRepository = (): RepositoriesSource => {
+const getInMemoryRepositories = (): RepositoriesSource => {
     const repositories = {
         users: new InMemoryUserRepository(),
         transactionsImports: new InMemoryTransactionImportRepository(),
@@ -26,4 +26,4 @@ const getInMemoryRepository = (): RepositoriesSource => {
     return repositories;
 }
 
-export { getInMemoryRepository };
+export { getInMemoryRepositories };
