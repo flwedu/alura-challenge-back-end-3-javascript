@@ -24,7 +24,7 @@ export class CSVToTransactionAdapter {
             destinyBankName: source[3],
             destinyBankAgency: source[4],
             destinyBankNumber: source[5],
-            value: source[6],
+            value: Number(source[6]),
             date: new Date(source[7]),
             allFieldsFull: true,
             userId,

@@ -8,7 +8,7 @@ export type TransactionProps = {
     destinyBankName: string,
     destinyBankAgency: string,
     destinyBankNumber: string,
-    value: string;
+    value: number;
     date: Date;
     allFieldsFull: boolean;
     userId: string;

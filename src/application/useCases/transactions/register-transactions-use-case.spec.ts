@@ -20,7 +20,7 @@ describe('Register Transacions use case tests', () => {
             date: new Date(),
             userId: "1",
             allFieldsFull: true,
-            value: "200",
+            value: 200,
             originBankName: "TestOrigin",
             originBankAgency: "001",
             originBankNumber: "001",

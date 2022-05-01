@@ -16,7 +16,7 @@ test('should return a array with one transaction', () => {
             destinyBankName: "BANCO BRADESCO",
             destinyBankAgency: "0001",
             destinyBankNumber: "00001-1",
-            value: "8000",
+            value: 8000,
             date: new Date("2022-01-01T07:30:00"),
             allFieldsFull: true,
             userId: "1"
