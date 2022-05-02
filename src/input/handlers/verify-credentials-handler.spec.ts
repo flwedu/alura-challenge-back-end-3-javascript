@@ -1,8 +1,8 @@
 import { getInMemoryRepositories } from "../../output/repositories/RepositoriesSource";
 import Encryptor from "../../security/Encryptor";
-import { VerifyCredentialsController } from "./VerifyCredentialsController";
+import { verifyCredentialsHandler } from "./verify-credentials-handler";
 
-describe('Controllers: VerifyCredentials', () => {
+describe('Handler: Verify Credentials', () => {
 
     const repositories = getInMemoryRepositories()
     const encryptor = new Encryptor("123");
@@ -23,10 +23,10 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repositories);
+        const sut = verifyCredentialsHandler(repositories);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut(request, response, next);
 
         expect.assertions(3);
         expect(next).toHaveBeenCalled();
@@ -46,10 +46,10 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repositories);
+        const sut = verifyCredentialsHandler(repositories);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut(request, response, next);
 
         expect.assertions(2);
         expect(next).not.toHaveBeenCalled();
@@ -67,10 +67,10 @@ describe('Controllers: VerifyCredentials', () => {
             render: jest.fn()
         }
         const next = jest.fn();
-        const sut = new VerifyCredentialsController(repositories);
+        const sut = verifyCredentialsHandler(repositories);
 
         //@ts-ignore
-        await sut.handle(request, response, next);
+        await sut(request, response, next);
 
         expect.assertions(2);
         expect(next).not.toHaveBeenCalled();

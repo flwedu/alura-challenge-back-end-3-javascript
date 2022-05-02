@@ -1,6 +1,6 @@
-import { LogoutUserController } from ".";
+import { usersLogoutHandler } from "./users-logout-handler";
 
-describe('Controllers: Logout User Controller: ', () => {
+describe('Handler: Logout User: ', () => {
 
     test('should destroy the session and redirect to /login', async () => {
         //@ts-ignore
@@ -13,10 +13,10 @@ describe('Controllers: Logout User Controller: ', () => {
         const response = {
             redirect: jest.fn()
         }
-        const sut = new LogoutUserController();
+        const sut = usersLogoutHandler();
 
         //@ts-ignore
-        await sut.handle(request, response);
+        await sut(request, response);
 
         expect.assertions(3);
         expect(request.session.destroy).toHaveBeenCalledTimes(1);

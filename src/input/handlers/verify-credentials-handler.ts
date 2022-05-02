@@ -4,14 +4,12 @@ import BusinessRuleError from "../../application/errors/BusinessRuleError";
 import { ErrorMessage } from "../../application/errors/ErrorMessage";
 import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 
-export class VerifyCredentialsController {
+export const verifyCredentialsHandler = (repositories: RepositoriesSource) => {
 
-    constructor(private readonly repositories: RepositoriesSource) { };
-
-    async handle(request: Request, response: Response, next: NextFunction) {
+    return async (request: Request, response: Response, next: NextFunction) => {
         try {
             const session = request.session;
-            const user = await this.repositories.users.findById(session.userId);
+            const user = await repositories.users.findById(session.userId);
             if (!user.active) throw new BusinessRuleError(ErrorMessage.USER_INACTIVE());
             next();
         } catch (err) {

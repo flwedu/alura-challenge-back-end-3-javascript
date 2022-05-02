@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
 
-export class LogoutUserController {
+export const usersLogoutHandler = () => {
 
-    constructor() { };
-
-    async handle(request: Request, response: Response) {
+    return async (request: Request, response: Response) => {
 
         const session = request.session;
 

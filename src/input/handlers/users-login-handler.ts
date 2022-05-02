@@ -3,21 +3,19 @@ import { LoginUserUseCase } from "../../application/useCases/user/LoginUserUseCa
 import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../../security/IEncryptor";
 
-export class LoginUserController {
+export const usersLoginHandler = (repositories: RepositoriesSource, encryptor: IEncryptor) => {
 
-    constructor(private readonly repositories: RepositoriesSource, private readonly encryptor: IEncryptor) { };
-
-    async handle(request: Request, response: Response, loginErrorView: any) {
+    return async (request: Request, response: Response) => {
         const { email, password } = request.body;
 
         try {
-            const userId = await new LoginUserUseCase(this.repositories.users, this.encryptor).execute({ email, password });
+            const userId = await new LoginUserUseCase(repositories.users, encryptor).execute({ email, password });
             //@ts-ignore
             request.session.userId = userId;
             return response.redirect("/home");
-        } catch (err) {
+        } catch (error) {
             //@ts-ignore
-            return loginErrorView.handle(request, response, err);
+            return response.render("login", { error });
         }
     }
 }

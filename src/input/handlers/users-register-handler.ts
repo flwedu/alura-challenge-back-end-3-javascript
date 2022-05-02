@@ -3,19 +3,16 @@ import { RegisterUserUseCase } from "../../application/useCases/user/RegisterUse
 import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
 import { IEncryptor } from "../../security/IEncryptor";
 
-export class RegisterUserController {
+export const usersRegisterHandler = (repositories: RepositoriesSource, encryptor: IEncryptor) => {
 
-    constructor(private readonly repositories: RepositoriesSource, private readonly encryptor: IEncryptor) { };
-
-    async handle(request: Request, response: Response, next: NextFunction) {
+    return async (request: Request, response: Response, next: NextFunction) => {
         const { name, email } = request.body;
 
         try {
-            await new RegisterUserUseCase(this.repositories.users, this.encryptor).execute({ name, email });
+            await new RegisterUserUseCase(repositories.users, encryptor).execute({ name, email });
             return response.redirect("/users");
         } catch (err) {
             next(err);
         }
-
     }
 }
