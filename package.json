@@ -44,6 +44,9 @@
   },
   "_moduleAliases": {
     "@src": "./src",
-    "@test": "./test"
+    "@test": "./test",
+    "@useCases": "./src/application/useCases/",
+    "@domain": "./src/application/domain/",
+    "repositories": "./src/output/repositories/"
   }
 }

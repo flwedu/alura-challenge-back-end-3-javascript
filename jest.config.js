@@ -11,5 +11,8 @@ module.exports = {
   moduleNameMapper: {
     "@src/(.*)": "<rootDir>/src/$1",
     "@tests/(.*)": "<rootDir>/tests/$1",
+    "@useCases/(.*)": ["<rootDir>/src/application/useCases/$1"],
+    "@domain/(.*)": ["<rootDir>/src/application/domain/$1"],
+    "@repositories/(.*)": ["<rootDir>/src/output/repositories"],
   },
 };

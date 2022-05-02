@@ -15,7 +15,10 @@
     "baseUrl": ".",
     "paths": {
       "@src/*": ["src/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["tests/*"],
+      "@useCases": ["src/application/useCases/*"],
+      "@domain": ["src/application/domain/*"],
+      "@repositories": ["src/output/repositories/*"]
     },
     "rootDirs": ["./src", "./tests"]
   },
