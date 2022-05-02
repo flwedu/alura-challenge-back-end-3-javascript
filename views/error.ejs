@@ -17,7 +17,14 @@
     <header><%- include("partials/header") %></header>
     <div class="container mt-3">
       <h1>Error <%= errorCode %></h1>
-      <p><%= error.message %></p>
+      <p>
+        Message: <br />
+        <%= error.message %>
+      </p>
+      <p>
+        Stack: <br />
+        <%= error.stack %>
+      </p>
     </div>
   </body>
 </html>
