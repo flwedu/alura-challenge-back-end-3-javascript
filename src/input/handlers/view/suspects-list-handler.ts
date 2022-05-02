@@ -1,6 +1,7 @@
+import { LoadAllSuspectTransactionsUseCase } from "@src/application/useCases/transactions/LoadAllSuspectTransactionsUseCase";
+import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource";
 import { Request, Response } from "express";
-import { LoadAllSuspectTransactionsUseCase } from "../../application/useCases/transactions/LoadAllSuspectTransactionsUseCase";
-import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
+
 
 export const suspectsListHandler = (repositories: RepositoriesSource) => {
 
