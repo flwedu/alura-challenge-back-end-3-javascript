@@ -15,10 +15,30 @@
   </head>
   <body>
     <header><%- include("partials/header")%></header>
-    <h1>Transações Suspeitas</h1>
-
-    <h1>Contas Suspeitas</h1>
-
-    <h1>Agências Suspeitas</h1>
+    <h1>Análise de Transações Suspeitas</h1>
+    <p>
+      Escolha uma data para gerar o relatório de Transações, Contas e Agências
+      suspeitas:
+    </p>
+    <form action="/suspects" method="post">
+      <input type="date" name="date" id="date" />
+      <input type="submit" value="Realizar Análise" />
+    </form>
+    <% if(transactions.length){ %>
+    <h2>Transações Suspeitas</h2>
+    <div class="container-sm mb-2">
+      <%- include("partials/transactions", {transactions}); %>
+    </div>
+    <% } %> <% if(accounts.length){ %>
+    <h2>Contas Suspeitas</h2>
+    <div class="container-sm mb-2">
+      <%- include("partials/accounts", {accounts}); %>
+    </div>
+    <% } %> <% if(agencies.length){ %>
+    <h2>Agências Suspeitas</h2>
+    <div class="container-sm mb-2">
+      <%- include("partials/agencies", {agencies}); %>
+    </div>
+    <% } %>
   </body>
 </html>
