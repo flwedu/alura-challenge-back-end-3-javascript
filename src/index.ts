@@ -1,15 +1,18 @@
 import crypto from "crypto";
 import { User } from "./application/domain/User";
+import "dotenv/config"
 import { configureExpressApp } from "./ExpressApp";
-import { getInMemoryRepositories } from "./output/repositories/RepositoriesSource";
+import { getInMemoryRepositories, getMySQLTestRepositories } from "./output/repositories/RepositoriesSource";
 import configureRouter from "./routes";
 import Encryptor from "./security/Encryptor";
 
 const encryptor = new Encryptor(process.env.SECRET);
 const repositories = getInMemoryRepositories();
+let connection = repositories.connection;
 
-//Add default user
+// Running async app
 (async () => {
+
     await repositories.users.save(
         {
             id: crypto.randomUUID(),
@@ -30,10 +33,18 @@ process.on("uncaughtException", (error, origin) => {
     console.error(`${origin} signal received: ${error}`);
     app.render("error", { errorCode: 500, error })
 })
+// Graceful shutdown app app
+const closeSignals = ["SIGTERM", "SIGINT", "SIGKILL"]
+closeSignals.forEach(signal => process.on(signal, () => GracefulCloseApplication(signal)))
 
-// Shutdown app
-process.on("SIGINT", function (code) {
-    console.log("Shutdown command received... closing application with ", code);
-    //@ts-ignore
-    process.exit(code);
+process.on('exit', (code) => {
+    console.log('Exit signal received', code)
 })
+
+function GracefulCloseApplication(code: any) {
+    if (connection) {
+        connection.close()
+    }
+    console.log("\n Shutdown command received... closing application with ", code);
+    process.exit(code);
+}
