@@ -9,16 +9,16 @@
     "strictNullChecks": false,
     "skipLibCheck": true,
     "sourceMap": true,
-    "baseUrl": ".",
-    "rootDirs": ["./src", "./test"],
     "outDir": "dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"],
-      "@test/*": ["./test/*"]
-    }
+      "@src/*": ["src/*"],
+      "@tests/*": ["tests/*"]
+    },
+    "rootDirs": ["./src", "./tests"]
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "include": ["./src/**/*.ts", "./tests/**/*.ts"],
   "exclude": ["./node_modules/*", "dist"]
 }
