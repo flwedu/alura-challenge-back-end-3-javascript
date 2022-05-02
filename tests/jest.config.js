@@ -7,7 +7,6 @@ module.exports = {
   ...{
     rootDir: root,
     displayName: "e2e-tests",
-    setupFilesAfterEnv: ["<rootDir>/test/jest-setup.ts"],
-    testMatch: ["<rootDir>/test/**/*.spec.ts"],
+    testMatch: ["<rootDir>/tests/**/*.spec.ts"],
   },
 };

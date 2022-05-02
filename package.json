@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
+    "test:functional": "jest --projects ./tests --forceExit --runInBand",
     "dev": "ts-node-dev src/index.ts"
   },
   "keywords": [],
