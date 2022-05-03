@@ -1,7 +1,6 @@
 export default class BusinessRuleError extends Error {
-
-    constructor(message: string) {
-        super(message);
-        this.name = "BusinessRuleError";
-    }
+  constructor(message: string) {
+    super(message)
+    this.name = "BusinessRuleError"
+  }
 }

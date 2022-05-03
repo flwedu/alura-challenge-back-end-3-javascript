@@ -1,11 +1,9 @@
-import ITransactionImportRepository from "../../../output/repositories/ITransactionImportRepository";
+import ITransactionImportRepository from "../../../output/repositories/ITransactionImportRepository"
 
 export class LoadTransactionImportByIdUseCase {
+  constructor(private readonly repository: ITransactionImportRepository) {}
 
-    constructor(private readonly repository: ITransactionImportRepository) { }
-
-    execute(id: string) {
-
-        return this.repository.findById(id);
-    }
+  execute(id: string) {
+    return this.repository.findById(id)
+  }
 }

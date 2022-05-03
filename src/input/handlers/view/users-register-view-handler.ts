@@ -1,8 +1,6 @@
-import { Request, Response } from "express";
+import { Request, Response } from "express"
 
-export const usersRegisterViewHandler = () =>
-
-    (request: Request, response: Response) => {
-
-        response.render("register");
-    }
+export const usersRegisterViewHandler =
+  () => (request: Request, response: Response) => {
+    response.render("register")
+  }

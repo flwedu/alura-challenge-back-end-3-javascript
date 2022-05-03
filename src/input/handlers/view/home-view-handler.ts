@@ -1,14 +1,16 @@
-import { LoadAllTransactionsImportsFromUserUseCase } from "@src/application/useCases/transactions/LoadAllTransactionsFromUserUseCase";
-import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource";
-import { Request, Response } from "express";
+//@ts-nocheck
+import { LoadAllTransactionsImportsFromUserUseCase } from "@src/application/useCases/transactions/LoadAllTransactionsFromUserUseCase"
+import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource"
+import { Request, Response } from "express"
 
-export const homeViewHandler = (repositories: RepositoriesSource) =>
+export const homeViewHandler =
+  (repositories: RepositoriesSource) =>
+  async (request: Request, response: Response) => {
+    const session = request.session
+    const transactionsImports =
+      await new LoadAllTransactionsImportsFromUserUseCase(
+        repositories.transactionsImports
+      ).execute(session.userId)
 
-    async (request: Request, response: Response) => {
-
-        const session = request.session;
-        //@ts-ignore
-        const transactionsImports = await new LoadAllTransactionsImportsFromUserUseCase(repositories.transactionsImports).execute(session.userId);
-
-        response.render("home", { transactionsImports: transactionsImports });
-    }
+    response.render("home", { transactionsImports: transactionsImports })
+  }

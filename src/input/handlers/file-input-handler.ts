@@ -1,36 +1,41 @@
-import { Request, Response } from "express";
-import fs from "fs";
-import { RegisterTransactionsUseCase } from "../../application/useCases/transactions/register-transactions-use-case";
-import RegisterTransactionsImportUseCase from "../../application/useCases/transactions/RegisterTransactionsImportUseCase";
-import { RepositoriesSource } from "../../output/repositories/RepositoriesSource";
-import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter";
+import { Request, Response } from "express"
+import fs from "fs"
+import { RegisterTransactionsUseCase } from "../../application/useCases/transactions/register-transactions-use-case"
+import RegisterTransactionsImportUseCase from "../../application/useCases/transactions/RegisterTransactionsImportUseCase"
+import { RepositoriesSource } from "../../output/repositories/RepositoriesSource"
+import { CSVToTransactionAdapter } from "../adapters/CSVToTransactionAdapter"
 
 export const fileInputHandler = (repositories: RepositoriesSource) => {
+  return async (request: Request, response: Response) => {
+    //@ts-ignore
+    const userId: string = request.session.userId
 
-    return async (request: Request, response: Response) => {
+    if (request.file) {
+      const fileSource = fs.readFileSync(request.file.path, {
+        encoding: "utf8",
+      })
+      const adapter = new CSVToTransactionAdapter(fileSource)
 
-        //@ts-ignore
-        const userId: string = request.session.userId;
+      const transactions = adapter.execute(userId)
+      const firstTransactionDate = transactions[0].props.date
 
-        if (request.file) {
-            const fileSource = fs.readFileSync(request.file.path, { encoding: "utf8" });
-            const adapter = new CSVToTransactionAdapter(fileSource);
+      // Get Import id after persisting
+      const importId = await new RegisterTransactionsImportUseCase(
+        repositories.transactionsImports
+      ).execute(userId, firstTransactionDate)
 
-            const transactions = adapter.execute(userId);
-            const firstTransactionDate = transactions[0].props.date;
+      await new RegisterTransactionsUseCase(
+        repositories.transactions,
+        repositories.transactionsImports
+      ).execute(transactions, importId)
 
-            // Get Import id after persisting
-            const importId = await new RegisterTransactionsImportUseCase(repositories.transactionsImports).execute(userId, firstTransactionDate);
-
-            await new RegisterTransactionsUseCase(repositories.transactions, repositories.transactionsImports).execute(transactions, importId);
-
-            fs.rm(request.file.path, (err) => {
-                if (err) {
-                    console.error("error deleting upload: " + err);
-                }
-                return;
-            });
+      fs.rm(request.file.path, (err) => {
+        if (err) {
+          console.error("error deleting upload: " + err)
         }
-        return response.redirect("/");
+        return
+      })
     }
+    return response.redirect("/")
+  }
 }

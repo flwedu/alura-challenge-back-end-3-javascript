@@ -1,37 +1,35 @@
-import { CSVToTransactionAdapter } from "./CSVToTransactionAdapter";
+import { CSVToTransactionAdapter } from "./CSVToTransactionAdapter"
 
-test('should return a array with one transaction', () => {
+test("should return a array with one transaction", () => {
+  const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00`
+  const adapter = new CSVToTransactionAdapter(input)
 
-    const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00`
-    const adapter = new CSVToTransactionAdapter(input);
+  const result = adapter.execute("1")
 
-    const result = adapter.execute("1");
-
-    expect.assertions(1);
-    expect(result[0]).toMatchObject({
-        "props": {
-            originBankName: "BANCO DO BRASIL",
-            originBankAgency: "0001",
-            originBankNumber: "00001-1",
-            destinyBankName: "BANCO BRADESCO",
-            destinyBankAgency: "0001",
-            destinyBankNumber: "00001-1",
-            value: 8000,
-            date: new Date("2022-01-01T07:30:00"),
-            allFieldsFull: true,
-            userId: "1"
-        }
-    })
+  expect.assertions(1)
+  expect(result[0]).toMatchObject({
+    props: {
+      originBankName: "BANCO DO BRASIL",
+      originBankAgency: "0001",
+      originBankNumber: "00001-1",
+      destinyBankName: "BANCO BRADESCO",
+      destinyBankAgency: "0001",
+      destinyBankNumber: "00001-1",
+      value: 8000,
+      date: new Date("2022-01-01T07:30:00"),
+      allFieldsFull: true,
+      userId: "1",
+    },
+  })
 })
 
-test('should an array with 2 transactions', () => {
-
-    const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00
+test("should an array with 2 transactions", () => {
+  const input = `BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-01T07:30:00
 BANCO DO BRASIL,0001,00001-1,BANCO BRADESCO,0001,00001-1,8000,2022-01-02T07:30:00`
-    const adapter = new CSVToTransactionAdapter(input);
+  const adapter = new CSVToTransactionAdapter(input)
 
-    const result = adapter.execute("1");
+  const result = adapter.execute("1")
 
-    expect.assertions(1);
-    expect(result.length).toEqual(2);
+  expect.assertions(1)
+  expect(result.length).toEqual(2)
 })

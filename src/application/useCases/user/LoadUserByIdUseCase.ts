@@ -1,12 +1,10 @@
-import IUserRepository from "../../../output/repositories/IUserRepository";
-import { User } from "../../domain/User";
+import IUserRepository from "../../../output/repositories/IUserRepository"
+import { User } from "../../domain/User"
 
 export class LoadUserByIdUseCase {
+  constructor(private readonly repository: IUserRepository) {}
 
-    constructor(private readonly repository: IUserRepository) { };
-
-    async execute(id: string): Promise<User> {
-
-        return this.repository.findById(id);
-    }
+  async execute(id: string): Promise<User> {
+    return this.repository.findById(id)
+  }
 }
