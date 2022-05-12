@@ -1,8 +1,8 @@
-import { LoadAllTransactionsByImportIdUseCase } from "@src/application/useCases/transactions/load-all-transactions-by-import-id-use-case"
-import { LoadTransactionImportByIdUseCase } from "@src/application/useCases/transactions/LoadTransactionImportByIdUseCase"
-import { LoadUserByIdUseCase } from "@src/application/useCases/user/LoadUserByIdUseCase"
-import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource"
 import { Request, Response } from "express"
+import { LoadAllTransactionsByImportIdUseCase } from "../../../application/useCases/transactions/load-all-transactions-by-import-id-use-case"
+import { LoadTransactionImportByIdUseCase } from "../../../application/useCases/transactions/LoadTransactionImportByIdUseCase"
+import { LoadUserByIdUseCase } from "../../../application/useCases/user/LoadUserByIdUseCase"
+import { RepositoriesSource } from "../../../output/repositories/RepositoriesSource"
 
 export const transactionsImportsDetailsViewHandler =
   (repositories: RepositoriesSource) =>

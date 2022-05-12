@@ -1,7 +1,7 @@
-import { LoadAllUsersUseCase } from "@src/application/useCases/user/LoadAllUsersUseCase"
-import { UserModel } from "@src/input/model/UserModel"
-import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource"
 import { Request, Response } from "express"
+import { LoadAllUsersUseCase } from "../../../application/useCases/user/LoadAllUsersUseCase"
+import { RepositoriesSource } from "../../../output/repositories/RepositoriesSource"
+import { UserModel } from "../../model/UserModel"
 
 export const usersListViewHandler =
   (repositories: RepositoriesSource) =>

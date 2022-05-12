@@ -1,7 +1,7 @@
 //@ts-nocheck
-import { LoadAllTransactionsImportsFromUserUseCase } from "@src/application/useCases/transactions/LoadAllTransactionsFromUserUseCase"
-import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource"
 import { Request, Response } from "express"
+import { LoadAllTransactionsImportsFromUserUseCase } from "../../../application/useCases/transactions/LoadAllTransactionsFromUserUseCase"
+import { RepositoriesSource } from "../../../output/repositories/RepositoriesSource"
 
 export const homeViewHandler =
   (repositories: RepositoriesSource) =>

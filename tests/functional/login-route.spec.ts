@@ -1,7 +1,7 @@
-import SetupExpressServer from "@src/config/ExpressApp"
-import { getInMemoryRepositories } from "@src/output/repositories/RepositoriesSource"
-import Encryptor from "@src/security/Encryptor"
 import supertest from "supertest"
+import SetupExpressServer from "../config/ExpressApp"
+import { getInMemoryRepositories } from "../output/repositories/RepositoriesSource"
+import Encryptor from "../security/Encryptor"
 
 describe("Login routes tests", () => {
   const encryptor = new Encryptor("123")

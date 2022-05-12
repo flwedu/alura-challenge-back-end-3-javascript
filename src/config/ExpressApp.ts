@@ -1,7 +1,7 @@
-import { RepositoriesSource } from "@src/output/repositories/RepositoriesSource"
-import { IEncryptor } from "@src/security/IEncryptor"
 import "dotenv/config"
 import express from "express"
+import { RepositoriesSource } from "../output/repositories/RepositoriesSource"
+import { IEncryptor } from "../security/IEncryptor"
 import setupMiddlewares from "./middlewares"
 import setupRouter from "./router"
 

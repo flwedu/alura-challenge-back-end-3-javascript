@@ -31,18 +31,12 @@
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
+    "ejs": "^3.1.8",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "module-alias": "^2.2.2",
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "node-ejs": "^1.2.3"
-  },
-  "_moduleAliases": {
-    "@src": "./src",
-    "@test": "./test",
-    "@useCases": "./src/application/useCases/",
-    "@domain": "./src/application/domain/",
-    "repositories": "./src/output/repositories/"
   }
 }

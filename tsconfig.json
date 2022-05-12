@@ -12,14 +12,6 @@
     "outDir": "dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": ["src/*"],
-      "@tests/*": ["tests/*"],
-      "@useCases": ["src/application/useCases/*"],
-      "@domain": ["src/application/domain/*"],
-      "@repositories": ["src/output/repositories/*"]
-    },
     "rootDirs": ["./src", "./tests"]
   },
   "include": ["./src/**/*.ts", "./tests/**/*.ts"],
